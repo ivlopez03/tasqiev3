@@ -1,12 +1,15 @@
-
 import './App.css'
-import LoginPage from './pages/auth/Login/LoginPage';
+import Sidebar from './components/Sidebar'
+import { Outlet } from 'react-router'
 
 function App() {
- 
+
   return (
     <>
-      <LoginPage />
+    <div className='flex'>
+     
+      <Outlet/>
+    </div>
     </>
   )
 }

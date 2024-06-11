@@ -10,10 +10,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primaryBackground": "#0D1117",
+        "primaryTextColor": "#e8488a",
+        "secondaryTextColor": "#45aeee",
+        "base200": "#f3f3f3",
+        "base300": "#d1d1d1",
+        "bgNeutralColor": "#cbcbcb"
       }
-    },
-    fontFamily: { "system-ui": ["system-ui", "sans-serif"],
     },
   },
   daisyui: {
