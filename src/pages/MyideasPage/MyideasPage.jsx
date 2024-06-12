@@ -1,7 +1,10 @@
 
 const MyideasPage = () => {
+    
     return (
-        <div>
+        <div className="w-full">
+            
+
             <h1>My Ideas</h1>
         </div>
     )
