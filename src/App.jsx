@@ -1,16 +1,23 @@
+
 import './App.css'
 import Sidebar from './components/Sidebar'
-import { Outlet } from 'react-router'
+import { SessionProvider } from './hooks/authContext'
+import { useRoutes } from 'react-router-dom'
+import {routesArray} from './Routes/Routes'
 
 function App() {
 
+  let routesElement = useRoutes(routesArray)
+
   return (
-    <>
-    <div className='flex'>
-     
-      <Outlet/>
-    </div>
-    </>
+    <SessionProvider>
+      <div className='flex'>
+        <Sidebar />
+        <div className='w-full h-screen'>
+          {routesElement}
+        </div>
+      </div>
+    </SessionProvider>
   )
 }
 
