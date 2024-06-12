@@ -2,6 +2,8 @@ import { signUp } from "../../../supabase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdEye , IoMdEyeOff } from "react-icons/io";
+import { FaUser } from "react-icons/fa";
+import { IoLockClosed,IoMail } from "react-icons/io5";
 
 
 const RegisterPage = () => {
@@ -10,6 +12,7 @@ const RegisterPage = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
    
     const [formData, setFormData] = useState({
         email: "",
@@ -25,8 +28,11 @@ const RegisterPage = () => {
             [name]: value,
             }));
         
-            if (name === "password") {
-            validatePassword(value);
+            if (name === "password" && value.length > 0) {
+                validatePassword(value);
+                setShowPasswordRequirements(true);
+            } else {
+                setShowPasswordRequirements(false);
             }
         };
     
@@ -87,7 +93,7 @@ const RegisterPage = () => {
     return (
         <>
             <main className="w-full h-screen flex self-center place-content-center place-items-center ">
-                <div className="w-96 text-gray-600 space-y-5 p-9 shadow-xl border rounded-xl  relative">
+                <div className="w-96 text-gray-600 space-y-2 p-9 shadow-xl border rounded-xl  relative">
                     <div className="flex place-content-center  pb-5">
                         <img src="/icon.png" className="w-24  "></img>
                     </div>
@@ -95,8 +101,13 @@ const RegisterPage = () => {
                         <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">Create a new account</h3>
                     </div>
                     <form onSubmit={onSubmit} className="space-y-4">
+
                         <div>
-                            <label className="text-sm text-gray-600 font-bold"> Name</label>
+                            <label className="text-sm text-gray-600 flex items-center "> 
+                                <FaUser className="mr-2"/>
+                                Name
+                                <span className="text-red-500 ">*</span>            
+                            </label>
                             <input type="text"
                                 autoComplete="name"
                                 name="name"
@@ -106,8 +117,13 @@ const RegisterPage = () => {
                                 className="w-full mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
                              />
                         </div>
+
                         <div>
-                            <label className="text-sm text-gray-600 font-bold"> Email </label>
+                            <label className="text-sm text-gray-600 flex items-center "> 
+                                <IoMail className="mr-2"/>
+                                Email 
+                                <span className="text-red-500">*</span>
+                            </label>
                         
                             <input 
                                 type="email"
@@ -119,8 +135,13 @@ const RegisterPage = () => {
                                 onChange={handleChange}
                                 className="w-full mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300" />
                         </div>
+
                         <div>
-                            <label className="text-sm text-gray-600 font-bold"> Password </label>
+                            <label className="text-sm text-gray-600 flex items-center "> 
+                                <IoLockClosed className="mr-2"/>
+                                Password 
+                                <span className="text-red-500">*</span>
+                            </label>
                             <div className="flex items-center relative ">
                             <input 
                                 type={showPassword ? "text" : "password"}
@@ -134,23 +155,30 @@ const RegisterPage = () => {
                                 {showPassword ? <IoMdEyeOff className="w-[20px] h-[20px]"/> : <IoMdEye className="w-[20px] h-[20px]"/>}
                             </button>
 
-
                             </div>
                             
                         </div>
-                        <ul className="text-[11px] ">
-                            <li className={passwordValidations.length ? "text-[green]" : "text-gray-400"}>
-                            {passwordValidations.length && <span>✔️</span>} At least 8 characters
-                            </li>
-                            <li className={passwordValidations.uppercase ? "text-[green]" : "text-gray-400"}>
-                            {passwordValidations.uppercase && <span>✔️</span>} At least one uppercase letter
-                            </li>
-                            <li className={passwordValidations.number ? "text-[green]" : "text-gray-400"}>
-                            {passwordValidations.number && <span>✔️</span>} At least one number
-                            </li>
+                        {showPasswordRequirements && (
+                            <ul className="text-[11px] transition duration-300">
+                                <li className={passwordValidations.length ? "text-[green]" : "text-gray-400"}>
+                                {passwordValidations.length && <span>✔️</span>} At least 8 characters
+                                </li>
+                                <li className={passwordValidations.uppercase ? "text-[green]" : "text-gray-400"}>
+                                {passwordValidations.uppercase && <span>✔️</span>} At least one uppercase letter
+                                </li>
+                                <li className={passwordValidations.number ? "text-[green]" : "text-gray-400"}>
+                                {passwordValidations.number && <span>✔️</span>} At least one number
+                                </li>
                         </ul>
+
+                        )}
+                        
                         <div>
-                            <label className="text-sm text-gray-600 font-bold"> Confirm Password </label>
+                            <label className="text-sm text-gray-600 flex items-center ">
+                                <IoLockClosed className="mr-2"/> 
+                                Confirm Password 
+                                <span className="text-red-500">*</span>
+                            </label>
                             <input 
                                 type={showPassword ? "text" : "password"}
                                 name="confirmPassword"
