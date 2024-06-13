@@ -28,12 +28,15 @@ const RegisterPage = () => {
             [name]: value,
             }));
         
-            if (name === "password" && value.length > 0) {
+            if (name === "password"  ) {
                 validatePassword(value);
-                setShowPasswordRequirements(true);
-            } else {
-                setShowPasswordRequirements(false);
-            }
+                if (value.length > 0) {
+                    setShowPasswordRequirements(true);
+                }
+                else{
+                    setShowPasswordRequirements(false);
+                }
+            } 
         };
     
 
@@ -100,7 +103,7 @@ const RegisterPage = () => {
                     <div className="mt-2">
                         <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">Create a new account</h3>
                     </div>
-                    <form onSubmit={onSubmit} className="space-y-4">
+                    <form onSubmit={onSubmit} className="space-y-2 ">
 
                         <div>
                             <label className="text-sm text-gray-600 flex items-center "> 
@@ -158,20 +161,20 @@ const RegisterPage = () => {
                             </div>
                             
                         </div>
-                        {showPasswordRequirements && (
-                            <ul className="text-[11px] transition duration-300">
-                                <li className={passwordValidations.length ? "text-[green]" : "text-gray-400"}>
-                                {passwordValidations.length && <span>✔️</span>} At least 8 characters
+                        
+                        <div className={`overflow-hidden transition-all duration-500  ${showPasswordRequirements ? ' opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <ul className="text-[11px] ">
+                                <li className={passwordValidations.length ? "text-[green]" : "text-red-400"}>
+                                At least 8 characters
                                 </li>
-                                <li className={passwordValidations.uppercase ? "text-[green]" : "text-gray-400"}>
-                                {passwordValidations.uppercase && <span>✔️</span>} At least one uppercase letter
+                                <li className={passwordValidations.uppercase ? "text-[green]" : "text-red-400"}>
+                                At least one uppercase letter
                                 </li>
-                                <li className={passwordValidations.number ? "text-[green]" : "text-gray-400"}>
-                                {passwordValidations.number && <span>✔️</span>} At least one number
+                                <li className={passwordValidations.number ? "text-[green]" : "text-red-400"}>
+                                At least one number
                                 </li>
-                        </ul>
-
-                        )}
+                            </ul>
+                        </div>
                         
                         <div>
                             <label className="text-sm text-gray-600 flex items-center ">
@@ -202,7 +205,7 @@ const RegisterPage = () => {
                             
                         </button>
                         <div className="text-sm text-center">
-                            Already have an account? <Link to="/login" className="text-blue-400 underline">Continue</Link>.
+                            Already have an account? <Link to="/login" className="text-blue-400 underline">Sign-in</Link>.
                         </div>                       
                     </form>
 
