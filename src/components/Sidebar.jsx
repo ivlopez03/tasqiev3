@@ -4,7 +4,7 @@ import { FaRocket,FaChartSimple } from "react-icons/fa6";
 import { AiFillInteraction } from "react-icons/ai";
 import { IoCalendarNumber} from "react-icons/io5";
 import { IoIosAddCircle,IoIosSettings } from "react-icons/io";
-import { FaUser,FaLightbulb,FaUserEdit  } from "react-icons/fa";
+import { FaUser,FaLightbulb,FaUserEdit,FaProjectDiagram   } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
 import { useState } from "react";
@@ -130,9 +130,9 @@ function Sidebar(){
                      <span className=" ml-2 text-sm">Create task</span>
                      </a>
                  </div>
-                 <div className=" hover:bg-[#fafafa]  hover:font-semibold rounded-md">
+                 <div className="group hover:bg-[#fafafa]  hover:font-semibold rounded-md">
                      <Link to={`/plan/:create`} className="p-2 flex items-center">
-                         <img src="../public/icon.png" alt="tasqie" className="w-[18px]" />
+                         <FaProjectDiagram fill="#c1c1c1" className="group-hover:fill-black "/>
                          <span className=" ml-2 text-sm">Create tasqie</span>
                      </Link>
                  </div>
