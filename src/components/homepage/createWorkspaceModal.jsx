@@ -43,7 +43,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onAddCard }) {
                 className="flex items-center justify-center w-10 h-10 rounded mr-4" 
                 style={{ backgroundColor: color }}
                 >
-                <span className={`text-white font-bold ${color === '#fff232' ?  'text-black' : '' } ${color === '#cbcbcb' ? 'text-black' : ''} `}>{title[0] && title[0].toUpperCase()}</span>
+                <span className={`font-bold ${color === '#fff232' ?  'text-black' : 'text-white' } `}>{title[0] && title[0].toUpperCase()}</span>
                 </div>
 
             </div>
@@ -55,7 +55,6 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onAddCard }) {
                     <button
                         key={colorOption}
                         type="button"
-                        defaultValue={color}
                         onClick={() => setColor(colorOption)}
                         style={{ backgroundColor: colorOption }}
                         className={`w-4 h-4 rounded-md  mr-7 my-1  ${color === colorOption ? 'ring-2 ring-offset-2 ring-blue-500' : ''}`}

@@ -11,7 +11,7 @@ function WorkspaceCard({ title, color, lastActivity}) {
         className="flex items-center justify-center w-10 h-10 rounded mr-4" 
         style={{ backgroundColor: color }}
       >
-        <span className={`text-white font-bold ${color === '#fff232' ?  'text-black' : '' } ${color === '#cbcbcb' ? 'text-black' : ''} `}>{title[0]}</span>
+        <span className={ `font-bold ${color === '#fff232' ?  'text-black' : 'text-white' }`}>{title[0] && title[0].toUpperCase()}</span>
       </div>
       <div>
         <div className="text-md">{title}</div>
