@@ -7,27 +7,30 @@ import supabase from '../../supabase/supabase';
 
 Modal.setAppElement('#root');
 
-function CreateWorkspaceModal({ isOpen, onRequestClose, onAddCard }) {
+function CreateWorkspaceModal({ isOpen, onRequestClose, onWorkspaceCreated }) {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#020b14');
 
-  const handleSubmit = (e) => {
+  const handleCreateWorkspace = async (e) => {
     e.preventDefault();
-    createWorkspace(title,color);
+    const { data, error } = await supabase.from('workspaces').insert([{workspace_title: title, background_color: color}]).select();
+    if (error) {
+      console.error('Error creating workspace:', error.message);
+    } else {
+        setTitle('');
+        setColor('#020b14');
+        onWorkspaceCreated(data[0]);
+        onRequestClose();
+       
+    }
   };
+
+  
 
   const colors = ['#45aeee', '#e8488a', '#fff232', '#66cc8a', '#cbcbcb', '#020b14'];
 
-  const createWorkspace = async (title, color) => {
-    console.log(title);
-    console.log(color);
-    const { data, error } = await supabase.from('workspaces').insert( {workspace_title: title, background_color: color}).select();
-    if (error) {
-      console.log(error);
-    } else {
-        console.log(data);
-    }
-  }
+  
+ 
 
 
   return (
@@ -38,7 +41,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onAddCard }) {
       overlayClassName="fixed inset-0 flex justify-center items-center"
     >
       <h2 className="mb-4">Create Workspace</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-xs">
+      <form onSubmit={handleCreateWorkspace} className="flex flex-col gap-4 w-full max-w-xs">
         <div>
           <input 
             type="text" 

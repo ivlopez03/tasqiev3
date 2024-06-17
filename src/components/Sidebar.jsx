@@ -86,7 +86,7 @@ function Sidebar(){
             
          <div ref={buttonRef}  onClick={toggleMenu} className={` border rounded-md p-2 flex items-center relative cursor-pointer ${ isActive ? 'bg-base200' : ''}  hover:bg-base200 `}>
              <div className="flex place-content-center items-center rounded-md bg-white w-[30px] h-[30px]">
-                 {user.avatar_url ? <img src={user.picture} className="w-[30px] h-[30px]" alt="profile image" ></img> : <DefaultUserIcon/> }
+                 {user.avatar_url ? <img src={user.picture} className="w-[30px] h-[30px] rounded-md" alt="profile image" ></img> : <DefaultUserIcon/> }
                  
                  
              </div>
