@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../supabase/supabase";
+import  supabase  from "../../supabase/supabase";
 import { useEffect,useState,useContext,createContext } from "react";
 
 const SessionContext = createContext();

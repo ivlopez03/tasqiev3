@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 
-import { supabase } from './supabase';
+import supabase from './supabase';
 
 
 

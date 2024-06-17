@@ -13,7 +13,7 @@ function App() {
     <SessionProvider>
       <div className='flex'>
         <Sidebar />
-        <div className='w-full h-screen'>
+        <div className='w-full'>
           {routesElement}
         </div>
       </div>
