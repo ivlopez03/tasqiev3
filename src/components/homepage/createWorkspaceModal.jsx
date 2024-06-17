@@ -3,6 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import supabase from '../../supabase/supabase';
 
 Modal.setAppElement('#root');
 
@@ -12,10 +13,21 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onAddCard }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddCard(title, color);
+    createWorkspace(title,color);
   };
 
   const colors = ['#45aeee', '#e8488a', '#fff232', '#66cc8a', '#cbcbcb', '#020b14'];
+
+  const createWorkspace = async (title, color) => {
+    console.log(title);
+    console.log(color);
+    const { data, error } = await supabase.from('workspaces').insert( {workspace_title: title, background_color: color}).select();
+    if (error) {
+      console.log(error);
+    } else {
+        console.log(data);
+    }
+  }
 
 
   return (
