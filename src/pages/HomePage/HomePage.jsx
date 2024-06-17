@@ -7,31 +7,40 @@ import WorkspaceCard from "../../components/homepage/WorkspaceCard";
 import supabase from "../../supabase/supabase";
 import PlusIcon from "../../assets/PlusIcon";
 
+import { fetchWithCache } from "../../utils/cacheUtils";
 
 
 const HomePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [cards, setCards] = useState([]);
 
-    const addCard = (title, color) => {
-        setCards([...cards, { title, color }]);
-        setIsModalOpen(false);
-    };
+    
+
 
     useEffect(() => {
-        const fetchWorkspaces = async () => {
-            const { data, error } = await supabase.from("workspaces").select();
-            if (error) {
-                console.log(error);
-            } else {
-                setCards(data);
-            }
-        };
         fetchWorkspaces();
     },[]);
+
+    const fetchWorkspaces = async () => {
+        const workspaces = await fetchWithCache("workspaces", async () =>{
+            const { data, error } = await supabase.from("workspaces").select();
+            if (error) throw error;
+            return data;
+        });
+        setCards(workspaces);
+    };
+
+
+    const handleWorkspaceCreated = (newWorkspace) => {
+        setCards((prevWorkspaces) => [...prevWorkspaces, newWorkspace]);
+        // Update cache
+        localStorage.setItem(
+          'workspaces',
+          JSON.stringify({ data: [...cards, newWorkspace], timestamp: Date.now() })
+        );
+      };
    
 
-    
     return (
         <div className=' p-2'>
             <div>
@@ -45,7 +54,7 @@ const HomePage = () => {
                     
                     <div className="flex flex-wrap gap-4 py-2">
                         {cards.map((card) => (
-                        <WorkspaceCard key={card.id} id={card.id} title={card.workspace_title} color={card.background_color} lastActivity={card.updated_at} />
+                        <WorkspaceCard key={card.id} workspace={card} workspaces={cards} />
                         ))}
                         
                         <div className="flex items-center p-3  w-[270px] min-w-[270px]">
@@ -55,7 +64,7 @@ const HomePage = () => {
                                 </button>
                             </div>
                         </div>
-                        <CreateWorkspaceModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} onAddCard={addCard} />
+                        <CreateWorkspaceModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}  onWorkspaceCreated={handleWorkspaceCreated} />
                         
                     </div>
                     
