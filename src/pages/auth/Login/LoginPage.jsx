@@ -1,5 +1,7 @@
-import { BsGoogle } from "react-icons/bs"
-import { IoLockClosed,IoMail } from "react-icons/io5";
+import GoogleIcon from "../../../assets/AuthIcons/GoogleIcon";
+import MailIcon from "../../../assets/AuthIcons/MailIcon";
+import LockIcon from "../../../assets/AuthIcons/PasswordIcon";
+
 import { Link,useNavigate } from "react-router-dom"
 import { useState } from "react";
 import { signIn,signInWithGoogle } from "../../../supabase/auth";
@@ -62,8 +64,8 @@ const LoginPage = () => {
                 </div>
                 <div className="">
                     <button onClick={signInGoogle} className="btn w-full relative mb-4">
-                        <div className="absolute left-4">
-                            <BsGoogle className="mr-2" />
+                        <div className="absolute left-4 mr-2">
+                            <GoogleIcon/>
                         </div>
                         Sign-in with Google
                     </button>
@@ -78,8 +80,8 @@ const LoginPage = () => {
                         <div className="text-red-500 text-sm text-center">{errorMessage}</div>
                     )}
                     <label className="text-sm text-gray-600 flex items-center">
-                        <IoMail className="mr-1"/>
-                        Email
+                        <MailIcon/>
+                        <span className="ml-1">Email</span>
                         <span className="text-red-500 m-0 p-0">*</span>
                     </label>
                     <input 
@@ -94,8 +96,8 @@ const LoginPage = () => {
 
 
                     <label className="text-sm text-gray-600 flex items-center mt-2 ">
-                        <IoLockClosed className="mr-1"/> 
-                        Password
+                        <LockIcon/> 
+                        <span className="ml-1">Password</span>
                         <span className="text-red-500 m-0 p-0">*</span>
                     </label>
                     <input 

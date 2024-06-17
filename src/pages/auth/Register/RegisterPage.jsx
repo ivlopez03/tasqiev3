@@ -1,9 +1,14 @@
+import MailIcon from "../../../assets/AuthIcons/MailIcon";
+import LockIcon from "../../../assets/AuthIcons/PasswordIcon";
+import UsernameIcon from "../../../assets/AuthIcons/UsernameIcon";
+import ViewPasswordIcon from "../../../assets/AuthIcons/ViewPasswordIcon";
+import HidePasswordIcon from "../../../assets/AuthIcons/HidePasswordIcon";
+
+
 import { signUp } from "../../../supabase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IoMdEye , IoMdEyeOff } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
-import { IoLockClosed,IoMail } from "react-icons/io5";
+
 
 
 const RegisterPage = () => {
@@ -107,8 +112,8 @@ const RegisterPage = () => {
 
                         <div>
                             <label className="text-sm text-gray-600 flex items-center "> 
-                                <FaUser className="mr-2"/>
-                                Name
+                                <UsernameIcon/>
+                                <span className="ml-2">Name</span>
                                 <span className="text-red-500 ">*</span>            
                             </label>
                             <input type="text"
@@ -123,8 +128,8 @@ const RegisterPage = () => {
 
                         <div>
                             <label className="text-sm text-gray-600 flex items-center "> 
-                                <IoMail className="mr-2"/>
-                                Email 
+                                <MailIcon />
+                                <span className="ml-2">Mail</span>
                                 <span className="text-red-500">*</span>
                             </label>
                         
@@ -141,8 +146,8 @@ const RegisterPage = () => {
 
                         <div>
                             <label className="text-sm text-gray-600 flex items-center "> 
-                                <IoLockClosed className="mr-2"/>
-                                Password 
+                                <LockIcon/>
+                                <span className="ml-2">Password</span> 
                                 <span className="text-red-500">*</span>
                             </label>
                             <div className="flex items-center relative ">
@@ -155,7 +160,7 @@ const RegisterPage = () => {
                                 onChange={handleChange}
                                 className="w-full mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300" />
                              <button type="button" onClick={toggleShowPassword} className="absolute right-3 mt-2" >
-                                {showPassword ? <IoMdEyeOff className="w-[20px] h-[20px]"/> : <IoMdEye className="w-[20px] h-[20px]"/>}
+                                {showPassword ? <ViewPasswordIcon /> : <HidePasswordIcon />}
                             </button>
 
                             </div>
@@ -178,8 +183,8 @@ const RegisterPage = () => {
                         
                         <div>
                             <label className="text-sm text-gray-600 flex items-center ">
-                                <IoLockClosed className="mr-2"/> 
-                                Confirm Password 
+                                <LockIcon/>
+                                <span className="ml-2">Confirm Password</span> 
                                 <span className="text-red-500">*</span>
                             </label>
                             <input 
