@@ -44,7 +44,7 @@ export const routesArray = [
         element: <React.Suspense fallback={<>Loading ...</>}> <MyideasPage></MyideasPage></React.Suspense>,
     },
     {
-        path:"/workspaces",
+        path:"/workspace/:workspaceId",
         element: <React.Suspense fallback={<>Loading ...</>}> <WorkspacePage></WorkspacePage></React.Suspense>,
     }
 ]
