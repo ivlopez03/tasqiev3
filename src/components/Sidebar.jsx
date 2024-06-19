@@ -13,10 +13,11 @@ import LogoutIcon from "../assets/LogoutIcon";
 
 import { useState,useEffect,useRef } from "react";
 import { signOut } from "../supabase/auth";
-import { useAuth } from "../hooks/authContext";
+import { useAuth } from "../context/authContext";
 
 import { useNavigate,NavLink,Link } from "react-router-dom"
-import supabase from "../supabase/supabase";
+import { useWorkspaces } from "../context/workspaceContext/WorkspaceContext";
+
 
 function Sidebar(){
 
@@ -25,9 +26,10 @@ function Sidebar(){
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
     
-    const [workspaces, setWorkspaces] = useState([]);
+    const { workspaces } = useWorkspaces();
     const [isActive, setIsActive] = useState(false);
 
+    // Function to close menu when clicked outside
     const handleClickOutside = (event) => {
         if (menuRef.current && 
             !menuRef.current.contains(event.target) && 
@@ -37,7 +39,7 @@ function Sidebar(){
             setIsActive(false);
         }
     };
-
+    // UseEffect to Close menu when clicked outside
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -51,6 +53,7 @@ function Sidebar(){
         
     }
 
+    // Logout function
     const logOut = async () => {
         try {
             await signOut().then(() => {navigate('/login')})
@@ -60,28 +63,16 @@ function Sidebar(){
             console.log(error)
         }
     }
+    // Get Context and user data
+    const { user } = useAuth();
 
-    const { userLoggedIn,user } = useAuth();
-
-    useEffect(() => {
-        const fetchWorkspaces = async () => {
-            const { data, error } = await supabase.from("workspaces").select();
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(data);
-                setWorkspaces(data);
-            }
-        };
-        fetchWorkspaces();
-    },[]);
-
+    
+   
 
    
 
     return(
         <>
-        { userLoggedIn ?
          <div className=" w-[280px] min-w-[280px] h-[100vh] p-3 border-r relative">
             
          <div ref={buttonRef}  onClick={toggleMenu} className={` border rounded-md p-2 flex items-center relative cursor-pointer ${ isActive ? 'bg-base200' : ''}  hover:bg-base200 `}>
@@ -188,7 +179,7 @@ function Sidebar(){
              <div className="h-[80%] overflow-y-scroll ">
                 <div className="ml-4">
                     <div>
-                        {workspaces.map((workspace) => (
+                    {workspaces.map((workspace) => (
                             <div key={workspace.id} className="group hover:bg-[#fafafa]  hover:font-semibold rounded-md ">
                                 <Link to={`/workspace/${workspace.id}`} className="p-2 flex items-center ">
                                     <div className={ `w-6 h-6  rounded-md flex items-center justify-center`} style={{ backgroundColor: workspace.background_color }}>
@@ -198,6 +189,7 @@ function Sidebar(){
                                 </Link>
                             </div>
                         ))}
+                    
                     </div>
                 </div>
              </div>
@@ -205,11 +197,9 @@ function Sidebar(){
          </div>
      </div>
 
-        :<></>
-
-        }
         
-        </>
+        
+    </>
        
 
 

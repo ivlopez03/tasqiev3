@@ -18,7 +18,7 @@ function DeleteWorkspaceModal({ isOpen, onRequestClose, workspace, onWorkspaceDe
       console.log(error);
     } else {
         console.log(`Workspace ${workspace.id} deleted`);
-        onWorkspaceDeleted(`${workspace.id}`);
+        onWorkspaceDeleted(workspace.id);
         onRequestClose();
     }
   };
@@ -28,17 +28,16 @@ function DeleteWorkspaceModal({ isOpen, onRequestClose, workspace, onWorkspaceDe
     isOpen={isOpen}
     onRequestClose={onRequestClose}
     contentLabel="Delete Workspace"
-    className="bg-white p-6 rounded shadow-md w-96 mx-auto mt-40"
-    overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    className="bg-base200 p-5 rounded shadow-md w-96 mx-auto border absolute top-[50px]"
+    overlayClassName="fixed inset-0 flex items-center justify-center z-50 "
   >
-    <h2 className="text-xl font-bold mb-4">Delete Workspace</h2>
-    <p>Are you sure you want to delete the workspace "{workspace.workspace_title}"?</p>
-    <p>id = {workspace.id}</p>
+    <h2 className="text-md font-semibold mb-4">Delete Workspace</h2>
+    <p className='text-sm'>Are you sure you want to delete the "<span className='font-semibold'>{workspace.workspace_title}</span>" workspace?</p>
     <div className="flex justify-end mt-4">
-      <button onClick={onRequestClose} className="mr-2 px-4 py-2 bg-gray-300 rounded">
+      <button onClick={onRequestClose} className="mr-2 px-4 py-1 bg-gray-300 rounded text-sm">
         Cancel
       </button>
-      <button onClick={handleDeleteWorkspace} className="px-4 py-2 bg-red-500 text-white rounded">
+      <button onClick={handleDeleteWorkspace} className="px-4 py-1 bg-red-500 text-white rounded text-sm">
         Delete
       </button>
     </div>

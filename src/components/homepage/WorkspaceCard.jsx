@@ -6,9 +6,13 @@ import MenuDotsIcon from '../../assets/MenuDotsIcon';
 import React,{ useState,useRef,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DeleteWorkspaceModal from './DeleteWorkspaceModal';
+import { useWorkspaces } from '../../context/workspaceContext/WorkspaceContext';
 
 function WorkspaceCard({workspace,workspaces}) {
     
+
+    const { deleteWorkspace } = useWorkspaces();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [workspaceToDelete, setWorkspaceToDelete] = useState(workspace);
     
@@ -50,14 +54,7 @@ function WorkspaceCard({workspace,workspaces}) {
     }
 
     const handleWorkspaceDeleted = (workspaceId) => {
-        const updatedWorkspaces = workspaces.filter(workspace => workspace.id !== workspaceId);
-        setWorkspaceToDelete(updatedWorkspaces);
-        console.log(updatedWorkspaces);
-        // Update cache
-        localStorage.setItem(
-          'workspaces',
-          JSON.stringify({ data: updatedWorkspaces, timestamp: Date.now() })
-        );
+        deleteWorkspace(workspaceId);
       };
 
 

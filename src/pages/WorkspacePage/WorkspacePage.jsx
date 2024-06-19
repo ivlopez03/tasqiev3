@@ -3,17 +3,15 @@ import KanbanBoard from "../../components/workspace/KanbanBoard"
 import { IoIosAddCircle,IoIosSettings } from "react-icons/io";
 import { FaTag,FaFilter,FaCirclePlay } from "react-icons/fa6";
 import { VscSettings } from "react-icons/vsc";
-import { useAuth } from "../../hooks/authContext";
-import { Navigate } from "react-router-dom";
 
 const WorkspacePage = ()=>{
 
-    const {userLoggedIn} = useAuth();
+    
 
     return(
         <>
         <div className='w-full p-2'>
-            { !userLoggedIn && (<Navigate to={'/login'} replace={true}/>)}
+           
             <div className='p-4 relative w-[90%] border-b flex'>
                 
                 <div className=" px-[6px] py-[0px] rounded-md bg-secondaryTextColor w-[30px] h-[30px] flex place-content-center items-center ">

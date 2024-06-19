@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 
 import { BsChevronDoubleUp,BsChevronDoubleDown,BsThreeDots } from "react-icons/bs";
