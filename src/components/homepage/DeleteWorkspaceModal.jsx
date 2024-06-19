@@ -28,8 +28,8 @@ function DeleteWorkspaceModal({ isOpen, onRequestClose, workspace, onWorkspaceDe
     isOpen={isOpen}
     onRequestClose={onRequestClose}
     contentLabel="Delete Workspace"
-    className="bg-base200 p-5 rounded shadow-md w-96 mx-auto border absolute top-[50px]"
-    overlayClassName="fixed inset-0 flex items-center justify-center z-50 "
+    className="bg-white p-5 rounded-xl shadow-md w-96 mx-auto border absolute top-[50px]"
+    overlayClassName="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-10"
   >
     <h2 className="text-md font-semibold mb-4">Delete Workspace</h2>
     <p className='text-sm'>Are you sure you want to delete the "<span className='font-semibold'>{workspace.workspace_title}</span>" workspace?</p>
