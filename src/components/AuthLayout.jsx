@@ -8,7 +8,7 @@ const AuthLayout = () => {
     return(
         <div className='flex'>
             <Sidebar />
-            <div className='w-full'>
+            <div className='w-full '>
                 <Outlet />
             </div>
         </div>  
