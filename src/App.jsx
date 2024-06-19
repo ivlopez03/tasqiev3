@@ -1,22 +1,29 @@
+/* eslint-disable no-unused-vars */
 
 import './App.css'
-import Sidebar from './components/Sidebar'
-import { SessionProvider } from './hooks/authContext'
-import { useRoutes } from 'react-router-dom'
-import {routesArray} from './Routes/Routes'
+
+import React,{ Suspense} from 'react'
+import { SessionProvider } from './context/authContext'
+import { BrowserRouter as Router, useRoutes } from 'react-router-dom'
+import { WorkspaceProvider } from './context/workspaceContext/WorkspaceContext'
+import  routes  from './Routes/Routes'
+
+
 
 function App() {
 
-  let routesElement = useRoutes(routesArray)
+  function AppRoutes(){
+    return useRoutes(routes)
+  }
+  
 
   return (
     <SessionProvider>
-      <div className='flex'>
-        <Sidebar />
-        <div className='w-full'>
-          {routesElement}
-        </div>
-      </div>
+      <WorkspaceProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AppRoutes />
+        </Suspense>
+      </WorkspaceProvider>
     </SessionProvider>
   )
 }

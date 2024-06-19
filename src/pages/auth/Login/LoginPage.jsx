@@ -33,7 +33,7 @@ const LoginPage = () => {
         try {
             ( await signIn(formData.email,formData.password)).error ? 
                 setErrorMessage("Email or password is incorrect") 
-                : navigate('/home')
+                : navigate('/')
             
         } catch (error) {
             console.log(error)
@@ -56,7 +56,7 @@ const LoginPage = () => {
 
 
     return (
-        <div className="w-full h-screen flex self-center place-content-center place-items-center ">
+        <div>
             
             <div className="w-96 text-gray-600 space-y-2  p-9 shadow-xl border rounded-xl relative">
                 <div className="flex place-content-center  pb-5">

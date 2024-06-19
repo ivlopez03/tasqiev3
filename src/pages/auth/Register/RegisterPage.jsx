@@ -100,7 +100,7 @@ const RegisterPage = () => {
 
     return (
         <>
-            <main className="w-full h-screen flex self-center place-content-center place-items-center ">
+            <main>
                 <div className="w-96 text-gray-600 space-y-2 p-9 shadow-xl border rounded-xl  relative">
                     <div className="flex place-content-center  pb-5">
                         <img src="/icon.png" className="w-24  "></img>
