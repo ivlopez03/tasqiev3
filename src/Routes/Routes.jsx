@@ -7,6 +7,7 @@ const VerifyEmailPage = lazy(() => import("../pages/auth/VerifyEmail/VerifyEmail
 const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
 const MyideasPage = lazy(() => import("../pages/MyideasPage/MyideasPage"));
 const WorkspacePage = lazy(() => import("../pages/WorkspacePage/WorkspacePage"));
+const WorkspacesPage = lazy(() => import("../pages/WorkspacesPage/WorkspacesPage"));
 
 import AuthLayout from '../components/AuthLayout';
 import UnauthLayout from '../components/UnauthLayout';
@@ -18,18 +19,19 @@ const routes = [
         path:'/',
         element: <AuthLayout/>,
         children: [
-            { path:'home', element: <HomePage/> },
-            { path: '/workspace/:workspaceId', element: <WorkspacePage/> },
-            { path: '/myideas', element: <MyideasPage/> }
+            { path: 'home', element: <HomePage/> },
+            { path: 'workspace/:workspaceId', element: <WorkspacePage/> },
+            { path: 'myideas', element: <MyideasPage/> },
+            { path: 'workspaces', element: <WorkspacesPage/>}
         ],
     },
     {
         path: '/',
         element:<UnauthLayout />,
         children: [
-            { path: '/login', element: <LoginPage/> },
-            { path: '/register', element: <RegisterPage/> },
-            { path: '/verify-email', element: <VerifyEmailPage/>}
+            { path: 'login', element: <LoginPage/> },
+            { path: 'register', element: <RegisterPage/> },
+            { path: 'verify-email', element: <VerifyEmailPage/>}
         ],
     },
 ];
