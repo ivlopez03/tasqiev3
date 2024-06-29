@@ -8,7 +8,7 @@ import CreateTaskIcon from "../assets/SidebarIcons/CreateTaskIcon";
 import CaptureIdeaIcon from "../assets/SidebarIcons/CaptureIdeaIcon";
 import DefaultUserIcon from "../assets/SidebarIcons/DefaultUserIcon";
 import LogoutIcon from "../assets/LogoutIcon";
-import PlusSMIcon from "../assets/PlusSMIcon";
+import GoPageIcon from "../assets/SidebarIcons/GoPageIcon";
 
 import { useState,useEffect,useRef } from "react";
 import { signOut } from "../supabase/auth";
@@ -83,7 +83,7 @@ function Sidebar(){
 
     return(
         <>
-         <div className=" w-[280px] min-w-[280px] h-[100vh] p-3 border-r relative  font-light bg-[#fcfcfc] ">
+         <div className=" w-[280px] min-w-[280px] h-[100vh] p-3 border-r relative  font-light bg-[#fafafa] ">
             
          <div ref={buttonRef}  onClick={toggleMenu} className={` border  rounded-md p-2 flex items-center relative cursor-pointer ${ isActive ? 'border-base200' : ''}  hover:border-base200  transition duration-300`}>
              <div className="flex place-content-center items-center rounded-md bg-white w-[30px] h-[30px]">
@@ -174,10 +174,10 @@ function Sidebar(){
                         </a>
                     </div>
                     <div className="group hover:bg-base200 hover:font-normal rounded-md">
-                        <NavLink to={`/plan/:create`} className="p-1 flex items-center">
+                        <button onClick={() => setIsModalOpen(true)} className="p-1 flex items-center">
                             <CreateTaskIcon/>
-                            <span className=" ml-2 ">Create tasqie</span>
-                        </NavLink>
+                            <span className="ml-2 ">Create workspace</span>
+                        </button>
                     </div>
 
                 </div>
@@ -187,11 +187,13 @@ function Sidebar(){
          </div>
          <div className="mt-4 h-[280px] h-max-[280px] relative">
              
-             <div className="text-sm mt-2 p-2 flex items-center relative ">
-                 <p className="text-[13px]">Workspaces</p>
-                 <button onClick={() => setIsModalOpen(true)} className="absolute right-1 border p-[1px] rounded-md  text-gray-400 border-gray-300 hover:bg-base200 transition duration-300">
-                    <PlusSMIcon/>
-                 </button>
+             <div className="group text-sm mt-2 p-2 flex items-center relative ">           
+                <Link to={`/workspaces`} className=" flex items-center">
+                        <span className=" text-[13px] hover:font-normal">Workspaces</span>
+                </Link>
+                <Link to={'/workspaces'} className="absolute right-1 rounded-md  text-gray-400 border-gray-300 hover:bg-base200 transition duration-300">
+                        <GoPageIcon/>
+                </Link>
              </div>
              
              <div className="h-[80%] overflow-y-scroll ">
@@ -207,16 +209,15 @@ function Sidebar(){
                                 </Link>
                             </div>
                         ))}
-                    
                     </div>
                 </div>
              </div>
-             <div className="bg-[#fcfcfc]  absolute bottom-[-2px] h-11 w-full blur-xl"></div>
+             <div className="bg-[#fcfcfc]  absolute bottom-[-11px] h-11 w-full blur-sm"></div>
              
          </div>
-         <div className="group relative top-10 flex justify-center w-full ">
-            <div className="absolute animated-background -inset-[-4px] bg-gradient-to-r from-emerald-500 to-primary blur  opacity-90   group-hover:from-primary group-hover:to-emerald-500 group-hover:-inset-[-2px] transition-all duration-200"></div>
-            <button className=" relative w-full p-2 bg-[#ffffff] rounded-md text-sm text-gray-500 group-hover:text-black transition duration-300 "> Subscribe to premium</button>
+         <div className="group absolute bottom-10 flex justify-center w-fit">
+            <div className="absolute border  rounded-md animated-background -inset-[-2px] bg-gradient-to-r from-emerald-500 to-primary   opacity-70    group-hover:from-primary group-hover:to-emerald-500  transition-all duration-200"></div>
+            <button className=" relative  py-2 px-14  rounded-md text-sm text-white group-hover:text-black transition duration-300 "> Subscribe to premium</button>
          </div>
      </div>
      <CreateWorkspaceModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}  onWorkspaceCreated={handleWorkspaceCreated} />
