@@ -5,12 +5,13 @@ import React, { createContext, useContext, useState, useEffect} from 'react';
 import supabase from "../../supabase/supabase";
 import { fetchWithCache } from '../../utils/cacheUtils';
 
+
 const WorkspaceContext = createContext();
 
 export const WorkspaceProvider = ({children}) => {
     const [workspaces, setWorkspaces] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [workspaceDeleted, setWorkspaceDeleted] = useState([]);
 
     useEffect(() => {
         const storedWorkspaces = localStorage.getItem('workspaces');
@@ -30,24 +31,13 @@ export const WorkspaceProvider = ({children}) => {
         });
         setWorkspaces(workspaces);
         setLoading(false);
-       
     };
 
    
     const createWorkspace = (newWorkspace) => {
         const updatedWorkspaces = [...workspaces, newWorkspace];
         setWorkspaces((prevWorkspaces) => [...prevWorkspaces, newWorkspace]);
-        // Update cache
-        localStorage.setItem(
-          'workspaces',
-          JSON.stringify({ data: [...updatedWorkspaces, newWorkspace], timestamp: Date.now() })
-        );
-      };
-
-
-    const deleteWorkspace = (workspaceId) => {
-        const updatedWorkspaces = workspaces.filter(workspace => workspace.id !== workspaceId);
-        setWorkspaces(updatedWorkspaces);
+        console.log('this is updateworkpaces',updatedWorkspaces)
 
         // Update cache
         localStorage.setItem(
@@ -55,10 +45,30 @@ export const WorkspaceProvider = ({children}) => {
           JSON.stringify({ data: updatedWorkspaces, timestamp: Date.now() })
         );
 
+        //console.log(localStorage.getItem('workspaces'))
+
+        console.log(`Workspace ${newWorkspace.workspace_title} created`);
+
+      };
+
+    const deleteWorkspace = (workspaceToDelete) => {
+        const updatedWorkspaces = workspaces.filter(workspace => workspace.id !== workspaceToDelete.id);
+        setWorkspaces(updatedWorkspaces);
+        console.log(`Workspace ${workspaceToDelete.workspace_title} deleted`);
+        setWorkspaceDeleted(workspaceToDelete);
+
+        // Update cache
+        localStorage.setItem(
+          'workspaces',
+          JSON.stringify({ data: updatedWorkspaces, timestamp: Date.now() })
+        );
+
+        console.log(`Workspace ${workspaceToDelete.workspace_title} deleted`);
+
     };
 
     return(
-        <WorkspaceContext.Provider value={{workspaces,createWorkspace,deleteWorkspace,loading}}>
+        <WorkspaceContext.Provider value={{workspaces,createWorkspace,deleteWorkspace,loading,workspaceDeleted}}>
             {children}
         </WorkspaceContext.Provider>
     );
