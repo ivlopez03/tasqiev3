@@ -16,6 +16,7 @@ function WorkspaceCard({workspace,workspaces}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [workspaceToDelete, setWorkspaceToDelete] = useState(workspace);
     
+    
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
     const submenuRef = useRef(null);
     const buttonRef = useRef(null);
@@ -53,9 +54,12 @@ function WorkspaceCard({workspace,workspaces}) {
         }
     }
 
-    const handleWorkspaceDeleted = (workspaceId) => {
-        deleteWorkspace(workspaceId);
+    const handleWorkspaceDeleted = (workspace) => {
+        deleteWorkspace(workspace);
+        
       };
+
+    
 
 
   return (
@@ -89,11 +93,7 @@ function WorkspaceCard({workspace,workspaces}) {
             )}
         </div>
       </div>
-      <DeleteWorkspaceModal  isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} workspace={workspaceToDelete} onWorkspaceDeleted={handleWorkspaceDeleted} />
-
-      
-     
-
+      <DeleteWorkspaceModal  isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}  workspace={workspaceToDelete} onWorkspaceDeleted={handleWorkspaceDeleted} />
     </div>
   );
 }

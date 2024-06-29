@@ -9,16 +9,16 @@ import supabase from '../../supabase/supabase';
 Modal.setAppElement('#root');
 
 function DeleteWorkspaceModal({ isOpen, onRequestClose, workspace, onWorkspaceDeleted }) {
-  
 
+  
   const handleDeleteWorkspace = async () => {
-    const { error } = await supabase.from('workspaces').delete().eq('id', workspace.id);
+    const { error } = await supabase.from('workspaces').delete().eq('id', workspace.id)
     if (error) {
       console.error('Error deleting workspace:', error);
       console.log(error);
     } else {
         console.log(`Workspace ${workspace.id} deleted`);
-        onWorkspaceDeleted(workspace.id);
+        onWorkspaceDeleted(workspace);
         onRequestClose();
     }
   };
