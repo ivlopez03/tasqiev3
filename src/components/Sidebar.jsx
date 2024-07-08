@@ -156,7 +156,7 @@ function Sidebar(){
                  
                  <div className="mb-1 p-2 flex items-center relative">
                     <p className="text-[13px]">Quick actions</p>
-                    <button className="absolute right-1 border p-[1px] rounded-md  text-gray-400 border-gray-300 hover:bg-base200 transition duration-300">
+                    <button className="absolute right-1 border p-[1px] rounded-sm  text-gray-500  border-gray-400 hover:bg-base200 transition duration-300">
                         <MenuIcon/>
                  </button>
                 </div>
