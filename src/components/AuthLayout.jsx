@@ -5,14 +5,14 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 const AuthLayout = () => {
-    return(
-        <div className='flex'>
-            <Sidebar />
-            <div className='w-full '>
-                <Outlet />
-            </div>
-        </div>  
-    );
+  return (
+    <div className="w-full flex">
+      <Sidebar />
+      <div className="w-full ">
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
 export default AuthLayout;
