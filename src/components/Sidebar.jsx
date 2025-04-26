@@ -1,14 +1,15 @@
 import MenuIcon from "../assets/SidebarIcons/MenuIcon";
-import HomeIcon from "../assets/SidebarIcons/HomeIcon";
-import IdeaIcon from "../assets/SidebarIcons/IdeaIcon";
 import ProductivityIcon from "../assets/SidebarIcons/ProductivityIcon";
-import RoutineIcon from "../assets/SidebarIcons/RoutineIcon";
 import CalendarIcon from "../assets/SidebarIcons/CalendarIcon";
-import CreateTaskIcon from "../assets/SidebarIcons/CreateTaskIcon";
-import CaptureIdeaIcon from "../assets/SidebarIcons/CaptureIdeaIcon";
 import DefaultUserIcon from "../assets/SidebarIcons/DefaultUserIcon";
 import LogoutIcon from "../assets/LogoutIcon";
-import GoPageIcon from "../assets/SidebarIcons/GoPageIcon";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { PiRocketLaunch } from "react-icons/pi";
+
+import { colors_array } from "../utils/colorsWorkspace";
+
+
+import { IoAdd,IoCalendarClearOutline } from "react-icons/io5";
 
 import { useState, useEffect, useRef } from "react";
 import { signOut } from "../supabase/auth";
@@ -74,13 +75,19 @@ function Sidebar() {
   // Get Context and user data
   const { user } = useAuth();
 
+  
+
   return (
     <>
-      <div className=" w-[280px] min-w-[280px] h-[100vh] p-3 border-r border-gray-700 relative  font-light  ">
+      <div className=" w-[280px] min-w-[280px] h-[100vh] p-3 border-r shadow-md relative  font-light bg-base-100 ">
+        <div className="relative flex items-center gap-2 mb-2 border-b border-gray-200 pb-2 ">
+          <img src="/tasklight.svg" width={50}  alt="tasqie icon"  />
+          <span className="text-lg font-bold" >TaskLight</span>
+        </div>
         <div
           ref={buttonRef}
           onClick={toggleMenu}
-          className={` border  rounded-md p-2 flex items-center relative cursor-pointer ${isActive ? "border-gray-500" : "border-gray-700"}    transition duration-300`}
+          className={`flex items-center relative cursor-pointer `}
         >
           <div className="flex place-content-center items-center rounded-md  w-[30px] h-[30px]">
             {user.avatar_url ? (
@@ -93,8 +100,8 @@ function Sidebar() {
               <DefaultUserIcon />
             )}
           </div>
-          <div className="ml-4 leading-none max-w-[160px]p-1">
-            <p className=" text-[15px] line-clamp-1">{user.name}</p>
+          <div className="ml-4 leading-none p-1">
+            <p className=" text-[15px] line-clamp-1 font-normal ">{user.name}</p>
             <span className="text-[12px] line-clamp-1 ">{user.email}</span>
           </div>
           <div className="absolute right-5">
@@ -105,21 +112,21 @@ function Sidebar() {
           {isMenuOpen && (
             <div
               ref={menuRef}
-              className="absolute right-3 mt-1 bg-base-200  border border-gray-700 rounded-md shadow-md "
+              className="absolute right-3 mt-1 bg-white  border rounded-md shadow-md "
             >
               <ul className="text-[12px]">
-                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-neutral">
+                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-base-300">
                   Settings
                 </li>
-                <li className="py-1 px-3 cursor-pointer hover:bg-neutral">
+                <li className="py-1 px-3 cursor-pointer hover:bg-base-300">
                   Upgrade
                 </li>
                 <li
                   onClick={logOut}
-                  className="py-1 px-3 rounded-b-md cursor-pointer hover:bg-neutral border-t-[1px] border-gray-700 flex items-center"
+                  className="py-1 px-3 text-red-500 font-normal rounded-b-md cursor-pointer hover:bg-secondary border-t-[1px] border-base-300 flex items-center"
                 >
                   <LogoutIcon />
-                  <span className="ml-1">Log Out</span>
+                  <span className="ml-1  ">Log Out</span>
                 </li>
               </ul>
             </div>
@@ -133,12 +140,12 @@ function Sidebar() {
                 to="/"
                 className={({ isActive }) =>
                   isActive
-                    ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
+                    ? "p-2 flex items-center cursor-pointer bg-base-200 rounded-md"
                     : "flex items-center p-2 cursor-pointer"
                 }
               >
-                <HomeIcon />
-                <span className=" ml-2 text-sm">Home</span>
+                <LuLayoutDashboard />
+                <span className=" ml-2 text-sm">Dashboard</span>
               </NavLink>
             </div>
             <div className="group hover:bg-base-200  hover:font-normal rounded-md">
@@ -146,103 +153,56 @@ function Sidebar() {
                 to={`/calendar`}
                 className={({ isActive }) =>
                   isActive
-                    ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
+                    ? "p-2 flex items-center cursor-pointer bg-base-200 rounded-md"
                     : "flex items-center p-2 cursor-pointer"
                 }
               >
-                <CalendarIcon />
+                <IoCalendarClearOutline />
                 <span className=" ml-2 text-sm">Calendar</span>
               </NavLink>
             </div>
 
-            <div className="group hover:bg-base-200 hover:font-normal rounded-md">
-              <NavLink
-                to={`/routines`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
-                    : "flex items-center p-2 cursor-pointer"
-                }
-              >
-                <RoutineIcon />
-                <span className=" ml-2 text-sm">Timeline</span>
-              </NavLink>
-            </div>
             <div className=" group hover:bg-base-200 hover:font-normal rounded-md">
               <NavLink
                 to={`/myproductivity`}
                 className={({ isActive }) =>
                   isActive
-                    ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
+                    ? "p-2 flex items-center cursor-pointer bg-base-200 rounded-md"
                     : "flex items-center p-2 cursor-pointer"
                 }
               >
-                <ProductivityIcon />
+                <PiRocketLaunch />
                 <span className=" ml-2 text-sm">My productivity</span>
               </NavLink>
             </div>
 
-            <div className=" group hover:bg-base-200  hover:font-normal rounded-md">
-              <NavLink
-                to={`/myideas`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
-                    : "flex items-center p-2 cursor-pointer"
-                }
-              >
-                <IdeaIcon />
-                <span className=" ml-2 text-sm">My ideas</span>
-              </NavLink>
-            </div>
+            
           </div>
-          <div className="mt-4  text-[13px] rounded-xl  ">
-            <div className="mb-1 p-2 flex items-center relative">
-              <p className="text-[13px]">Quick actions</p>
-              <button className="absolute right-1 border p-[1px] rounded-sm  text-gray-500  border-gray-700 hover:bg-base-200 transition duration-300">
-                <MenuIcon />
-              </button>
-            </div>
-            <div className="ml-4">
-              <div className="group hover:bg-base-200 hover:font-normal rounded-md">
-                <a href="" className="p-1 flex items-center">
-                  <CaptureIdeaIcon />
-                  <span className=" ml-2 ">Capture idea</span>
-                </a>
-              </div>
-              <div className="group hover:bg-base-200 hover:font-normal rounded-md">
-                <a href="" className="p-1 flex items-center">
-                  <CreateTaskIcon />
-                  <span className=" ml-2 ">Create task</span>
-                </a>
-              </div>
-              <div className="group hover:bg-base-200 hover:font-normal rounded-md">
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="p-1 flex items-center"
-                >
-                  <CreateTaskIcon />
-                  <span className="ml-2 ">Create workspace</span>
-                </button>
-              </div>
-            </div>
+          <div className="mt-4   rounded-xl  ">
+            <button className="flex items-center gap-2 w-full  bg-blue-500 text-white text-sm  rounded-md p-2">
+              <IoAdd />
+              <span>Quick Task</span>
+            </button>
+            
+              
+            
           </div>
         </div>
 
         <div className="mt-4 h-[280px] h-max-[280px] relative">
           <div className="group text-sm mt-2 p-2 flex items-center relative ">
             <NavLink to={`/workspaces`} className=" flex items-center">
-              <span className=" text-[13px] hover:font-normal">Workspaces</span>
+              <span className=" text-sm hover:font-normal">Workspaces</span>
             </NavLink>
-            <NavLink
-              to={"/workspaces"}
-              className="absolute right-1 rounded-md  text-gray-400 border-gray-700 hover:bg-base-200 transition duration-300"
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="absolute right-1 rounded-md"
             >
-              <GoPageIcon />
-            </NavLink>
+              <IoAdd size={20} />
+            </button>
           </div>
 
-          <div className="h-[80%] overflow-y-scroll ">
+          <div className="overflow-y-auto scrollbar-hide">
             <div className="ml-4">
               <div>
                 {workspaces.map((workspace) => (
@@ -263,7 +223,14 @@ function Sidebar() {
                         style={{ backgroundColor: workspace.background_color }}
                       >
                         <span
-                          className={` text-[10px] font-semibold ${workspace.background_color === "#fff232" ? "text-black" : "text-white"}`}
+                          className={` text-[10px] font-semibold  `}
+                          style={{
+                            color: colors_array.find(
+                              (c) =>
+                                c.bg_color ===
+                                workspace.background_color
+                            ).text_color,
+                          }}
                         >
                           {workspace.workspace_title[0]}
                         </span>
@@ -277,15 +244,9 @@ function Sidebar() {
               </div>
             </div>
           </div>
-          <div className=" bg-base-100 absolute bottom-[-11px] h-11 w-full blur-sm"></div>
+          
         </div>
-        <div className="group absolute bottom-10 flex justify-center w-fit">
-          <div className="absolute border  rounded-md animated-background  -inset-[-2px] bg-gradient-to-r from-emerald-500 to-primary   opacity-70    group-hover:from-primary group-hover:to-emerald-500  transition-all duration-200"></div>
-          <button className=" relative  py-2 px-14  rounded-md text-sm text-white group-hover:text-black transition duration-300 ">
-            {" "}
-            Subscribe to premium
-          </button>
-        </div>
+        
       </div>
       <CreateWorkspaceModal
         isOpen={isModalOpen}

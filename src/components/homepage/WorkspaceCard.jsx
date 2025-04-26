@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 import MenuDotsIcon from "../../assets/MenuDotsIcon";
+import { colors_array } from "../../utils/colorsWorkspace";
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -56,16 +57,23 @@ function WorkspaceCard({ workspace, workspaces }) {
     deleteWorkspace(workspace);
   };
 
+ 
+
   return (
     <div
-      className={`group relative flex items-center p-3 w-[270px] min-w-[270px] border border-transparent rounded-md ${cardVisibility ? "border-gray-600" : ""} hover:border-gray-600 hover:bg-base-200 transition duration-300 `}
+      className={`group relative flex items-center p-3 min-w-[350px] max-w-[350px] shadow-sm bg-base-100  border border-gray-100  rounded-md  transition duration-300 `}
     >
       <div
-        className="flex items-center justify-center w-10 h-10 rounded mr-4"
+        className="flex items-center justify-center w-10 min-w-10 h-10 rounded mr-4"
         style={{ backgroundColor: workspace.background_color }}
       >
         <span
-          className={`font-bold ${workspace.background_color === "#fff232" ? "text-black" : "text-white"}`}
+          className={`font-bold`}
+          style={{
+            color: colors_array.find(
+              (c) => c.bg_color === workspace.background_color
+            ).text_color,
+          }}
         >
           {workspace.workspace_title[0] &&
             workspace.workspace_title[0].toUpperCase()}
@@ -73,14 +81,19 @@ function WorkspaceCard({ workspace, workspaces }) {
       </div>
       <div>
         <Link to={`/workspace/${workspace.id}`}>
-          <div className="text-md">{workspace.workspace_title}</div>
+          <div className="text-md font-semibold">{workspace.workspace_title}</div>
         </Link>
-        <div className="text-[11px] text-gray-400">
-          Last activity:{workspace.updated_at}
+        <div>
+          <span className="text-xs line-clamp-3  ">
+            {workspace.description ? workspace.description : "No description"}
+          </span>
+        </div>
+        <div className="text-[11px] text-gray-400 pt-4 ">
+          Created At: {workspace.created_at}
         </div>
       </div>
       <div
-        className={`absolute right-2 top-2 ${cardVisibility ? "visible" : "invisible"} group-hover:visible `}
+        className={`absolute right-2 top-2 `}
       >
         <div className="flex items-center justify-center">
           <button ref={buttonRef} onClick={toggleSubmenu}>
@@ -89,18 +102,18 @@ function WorkspaceCard({ workspace, workspaces }) {
           {isSubmenuOpen && (
             <div
               ref={submenuRef}
-              className="absolute top-3 right-0 bg-base-200 border border-gray-500 rounded-md shadow-md z-20 "
+              className="absolute top-3 right-0 bg-base-100 border  rounded-md shadow-md z-20 "
             >
-              <ul className="text-[11px]">
-                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-neutral">
+              <ul className="text-sm">
+                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-base-200">
                   Edit
                 </li>
-                <li className="py-1 px-3 cursor-pointer hover:bg-neutral">
+                <li className="py-1 px-3 cursor-pointer hover:bg-base-200">
                   Close
                 </li>
                 <li
                   onClick={toggleDeleteModal}
-                  className="py-1 px-3 rounded-b-md cursor-pointer hover:bg-neutral text-[tomato]"
+                  className="py-1 px-3 rounded-b-md cursor-pointer hover:bg-secondary  text-red-500"
                 >
                   Delete
                 </li>

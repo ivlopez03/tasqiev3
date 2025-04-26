@@ -105,17 +105,18 @@ const RegisterPage = () => {
   return (
     <>
       <main>
-        <div className="w-96  space-y-2 p-9 shadow-xl border rounded-xl  relative bg-base-300">
-          <div className="flex place-content-center  pb-5">
-            <img src="/icon.png" className="w-24  "></img>
+        <div className="w-96  p-9 shadow-xl border rounded-xl  relative bg-base-100">
+          <div className="flex items-center  place-content-center  pb-5">
+            <img src="/tasklight.svg" width={60}></img>
+            <span className="text-2xl font-bold">TaskLight</span>
           </div>
-          <div className="mt-2">
+          <div className="mb-5">
             <h3 className=" text-xl font-semibold sm:text-2xl">
               Create a new account
             </h3>
           </div>
-          <form onSubmit={onSubmit} className="space-y-2 ">
-            <div>
+          <form onSubmit={onSubmit} className=" ">
+            <div className="mb-5">
               <label className="text-sm  flex items-center ">
                 <UsernameIcon />
                 <span className="ml-2">Name</span>
@@ -128,11 +129,11 @@ const RegisterPage = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-neutral  mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50  mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
               />
             </div>
 
-            <div>
+            <div className="mb-5" >
               <label className="text-sm  flex items-center ">
                 <MailIcon />
                 <span className="ml-2">Mail</span>
@@ -147,11 +148,11 @@ const RegisterPage = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full bg-neutral mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
               />
             </div>
 
-            <div>
+            <div  className="mb-5"  >
               <label className="text-sm  flex items-center ">
                 <LockIcon />
                 <span className="ml-2">Password</span>
@@ -165,7 +166,7 @@ const RegisterPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full bg-neutral mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                  className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
                 />
                 <button
                   type="button"
@@ -207,7 +208,7 @@ const RegisterPage = () => {
               </ul>
             </div>
 
-            <div>
+            <div className="mb-7">
               <label className="text-sm flex items-center ">
                 <LockIcon />
                 <span className="ml-2">Confirm Password</span>
@@ -220,7 +221,7 @@ const RegisterPage = () => {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full bg-neutral mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
               />
             </div>
             {errorMessage && (
@@ -229,7 +230,7 @@ const RegisterPage = () => {
 
             <button
               type="submit"
-              className={`w-full px-4 py-2 text-white font-medium rounded-lg bg-primary hover:bg-[#333333] hover:shadow-xl transition duration-300`}
+              className={`w-full px-4 py-2 mb-4   text-white font-medium rounded-lg bg-blue-500  transition duration-300`}
             >
               Create account
             </button>

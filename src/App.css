@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 
+body{
+    background-color: #fafafa;
+    
+}
+
 .animated-background {
     background-size: 400%;
 

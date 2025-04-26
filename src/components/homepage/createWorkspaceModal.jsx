@@ -5,45 +5,42 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import supabase from "../../supabase/supabase";
 
+import { colors_array } from "../../utils/colorsWorkspace";
+
 Modal.setAppElement("#root");
 
 function CreateWorkspaceModal({ isOpen, onRequestClose, onWorkspaceCreated }) {
   const [title, setTitle] = useState("");
-  const [color, setColor] = useState("#45aeee");
+  const [color, setColor] = useState("#eff6ff");
+  const [description, setDescription] = useState("");
 
   const handleCreateWorkspace = async (e) => {
     e.preventDefault();
     const { data, error } = await supabase
       .from("workspaces")
-      .insert([{ workspace_title: title, background_color: color }])
+      .insert([{ workspace_title: title, background_color: color,description:description }])
       .select();
     if (error) {
       console.error("Error creating workspace:", error.message);
     } else {
       setTitle("");
-      setColor("#020b14");
+      setColor("#eff6ff");
+      setDescription("");
+      
       onWorkspaceCreated(data[0]);
       onRequestClose();
     }
   };
 
-  const colors = [
-    "#45aeee",
-    "#e8488a",
-    "#fff232",
-    "#66cc8a",
-    "#894FFF",
-    "#FF974F",
-    "#cbcbcb",
-    "#020b14",
-  ];
+
+
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="flex flex-col p-8 bg-base-300 border border-gray-500 rounded-xl shadow-md w-[500px] font-light  "
-      overlayClassName="fixed inset-0 flex justify-center items-center bg-black bg-opacity-10 z-50"
+      className="flex  flex-col p-8 bg-base-100 border  rounded-xl shadow-xl w-[500px] font-light  "
+      overlayClassName="fixed inset-0 flex justify-center items-center bg-black bg-opacity-5 z-50"
     >
       <div className="w-full mb-6">
         <h2 className="">Create a Workspace</h2>
@@ -58,11 +55,14 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onWorkspaceCreated }) {
           <div className="flex">
             <div>
               <div
-                className="flex items-center justify-center w-10 h-10 rounded mr-4"
+                className="flex items-center justify-center w-10 h-10 rounded mr-4 "
                 style={{ backgroundColor: color }}
               >
                 <span
-                  className={`font-bold ${color === "#fff232" ? "text-black" : "text-white"} `}
+                  className={`font-bold  ` }
+                  style={{
+                    color: colors_array.find((c) => c.bg_color === color).text_color,
+                  }}
                 >
                   {title[0] && title[0].toUpperCase()}
                 </span>
@@ -86,13 +86,13 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onWorkspaceCreated }) {
               Pick a color
             </label>
             <div className="flex flex-wrap  ">
-              {colors.map((colorOption) => (
+              {colors_array.map((colorOption) => (
                 <button
                   key={colorOption}
                   type="button"
-                  onClick={() => setColor(colorOption)}
-                  style={{ backgroundColor: colorOption }}
-                  className={`w-4 h-4 rounded-md  mr-7 my-1  ${color === colorOption ? "ring-2 ring-offset-2 ring-blue-500" : ""}`}
+                  onClick={() => setColor(colorOption.bg_color)}
+                  style={{ backgroundColor: colorOption.bg_color }}
+                  className={`w-4 h-4 rounded-md  mr-7 my-1  ${color === colorOption.bg_color ? "ring-2 ring-offset-2 ring-blue-500" :"" } border  `}
                 />
               ))}
             </div>
@@ -109,13 +109,14 @@ function CreateWorkspaceModal({ isOpen, onRequestClose, onWorkspaceCreated }) {
           <input
             type="text"
             className="w-full p-2 bg-base-200 border border-gray-400 rounded text-sm outline-none "
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
         <div className="flex gap-4 my-2 justify-end">
           <button
             type="submit"
-            className=" px-4 py-1 bg-primary  text-white rounded text-sm "
+            className=" px-4 py-1 bg-blue-500  text-white rounded text-sm "
           >
             Create
           </button>

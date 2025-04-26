@@ -3,6 +3,9 @@ import WorkspaceCard from "../../components/homepage/WorkspaceCard";
 import PlusIcon from "../../assets/PlusIcon";
 import HelpIcon from "../../assets/HelpIcon";
 import SettingsIcon from "../../assets/SettingsIcon";
+import { FaRegClock } from "react-icons/fa";
+import { IoStatsChart,IoAdd } from "react-icons/io5";
+
 
 import { ColorRing } from "react-loader-spinner";
 import { useState } from "react";
@@ -35,10 +38,16 @@ const HomePage = () => {
   }
 
   return (
-    <div className="h-screen ">
+    <div className="h-screen bg-base-200 ">
       <div className="relative">
-        <div className="border-b border-gray-700 p-4 flex items-center relative justify-between ">
-          <div className="text-lg font-light  ">Dashboard</div>
+        <div className=" p-5 flex items-center relative justify-between ">
+          <div className="text-2xl font-bold  ">
+            Dashboard
+            <div></div>
+            <span className="text-sm text-gray-500 font-light">
+                {formatTodayDate()}
+              </span>
+            </div>
           <div className="flex gap-4 px-10">
             <div>
               <HelpIcon />
@@ -50,26 +59,59 @@ const HomePage = () => {
         </div>
 
         <div className="p-5">
-          <div className="pb-5">
-            <span className="text-lg font-semibold">Hello, {user.name} !</span>
-            <div>
-              <span className="text-[#909090] font-light">
-                {formatTodayDate()}
-              </span>
+        
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <div className="col-span-1 md:col-span-2 bg-white rounded-lg shadow-sm p-5 border border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <FaRegClock className="h-5 w-5 mr-2 text-blue-600" />
+            Recent Activity
+          </h2>
+          <div className="space-y-3">
+            <p className="text-gray-500 text-sm">No recent activity to show.</p>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="bg-white rounded-lg shadow-sm p-5 border border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <IoStatsChart className="h-5 w-5 mr-2 text-blue-600" />
+            Stats
+          </h2>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600">Tasks</p>
+              <p className="text-2xl font-bold text-blue-700">0</p>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600">Completed</p>
+              <p className="text-2xl font-bold text-green-700">0</p>
+            </div>
+            <div className="bg-yellow-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600">Pending</p>
+              <p className="text-2xl font-bold text-yellow-700">0</p>
+            </div>
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600">Workspaces</p>
+              <p className="text-2xl font-bold text-purple-700">{workspaces.length}</p>
             </div>
           </div>
+        </div>
+      </div>
+
+
           <div>
-            <div className="w-[600px] h-[25rem] relative overflow-hidden rounded-md shadow-sm  ">
-              <div className="flex items-centertext-md px-3 relative">
-                <div className="flex items-center gap-1">
-                  Workspaces{" "}
-                  <span className="text-white bg-black text-[9px] px-2 py-1 rounded-xl">
-                    {workspaces.length}
-                  </span>
-                </div>
-                <Link to={"/workspaces"} className="absolute right-3">
-                  <span className=" underline text-sm">See all</span>
-                </Link>
+            <div className="mt-10 relative  ">
+              <div className="flex items-center justify-between text-md px-3 mb-4  relative">
+                <h2 className="text-lg font-semibold ">My Workspaces</h2>
+                <button
+                  className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <IoAdd />
+                  <span className="text-sm">Create Workspace</span>
+                </button>
               </div>
               {loading ? (
                 <div className="flex justify-center items-center w-full h-52">
@@ -81,18 +123,14 @@ const HomePage = () => {
                         width="40"
                         ariaLabel="color-ring-label"
                         colors={[
-                          "#45aeee",
-                          "#e8488a",
-                          "#fff232",
-                          "#66cc8a",
-                          "#cbcbcb",
+                          "#2563eb",
                         ]}
                       />
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-wrap gap-4 py-2 relative  ">
+                <div className="flex flex-wrap gap-4 py-2 relative ">
                   {workspaces.map((card) => (
                     <WorkspaceCard
                       key={card.id}
@@ -101,21 +139,7 @@ const HomePage = () => {
                     />
                   ))}
 
-                  {workspaces.length < 8 && (
-                    <div className="flex items-center p-3  w-[270px] min-w-[270px]">
-                      <div
-                        className="lg:tooltip lg:tooltip-open lg:tooltip-right"
-                        data-tip="Add workspace"
-                      >
-                        <button
-                          onClick={() => setIsModalOpen(true)}
-                          className=" flex items-center justify-center border rounded-md   w-10 h-10 mr-1 text-gray-400 hover:bg-gray-600"
-                        >
-                          <PlusIcon />
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  
                   <CreateWorkspaceModal
                     isOpen={isModalOpen}
                     onRequestClose={() => setIsModalOpen(false)}

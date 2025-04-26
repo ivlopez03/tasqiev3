@@ -45,16 +45,17 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div className="w-96 space-y-2  p-9 shadow-xl border rounded-xl relative bg-base-300">
-        <div className="flex place-content-center  pb-5">
-          <img src="/icon.png" className="w-24  "></img>
+      <div className="w-96 space-y-2  p-9 shadow-xl border rounded-xl relative bg-base-100">
+        <div className="flex items-center  place-content-center  pb-5">
+          <img src="/tasklight.svg" width={60} ></img>
+          <span className="text-2xl font-bold">TaskLight</span>
         </div>
         <div className="">
           <button
             onClick={signInGoogle}
-            className="btn w-full relative mb-4 bg-gray-700 hover:bg-gray-800  "
+            className="flex items-center gap-16  w-full relative mb-4  bg-gray-200 p-2 rounded-md   "
           >
-            <div className="absolute left-4 mr-2">
+            <div className="">
               <GoogleIcon />
             </div>
             Sign-in with Google
@@ -84,7 +85,7 @@ const LoginPage = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="email@example.com"
-            className="w-full bg-neutral mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+            className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
           />
 
           <label className="text-sm  flex items-center mt-2 ">
@@ -98,11 +99,11 @@ const LoginPage = () => {
             required
             value={formData.password}
             onChange={handleChange}
-            className="w-full bg-neutral mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+            className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
           />
 
           <div className="flex place-content-center mt-4">
-            <button type="submit" className="btn btn-primary w-full">
+            <button type="submit" className="bg-blue-500 p-2 rounded-md text-base-100 w-full">
               Sign-in with Email
             </button>
           </div>

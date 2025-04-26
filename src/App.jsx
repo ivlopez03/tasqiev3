@@ -10,13 +10,7 @@ import routes from "./Routes/Routes";
 
 function App() {
   const routing = useRoutes(routes);
-  const [theme, setTheme] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light",
-  );
-  const root = document.documentElement;
-  root.setAttribute("data-theme", theme);
+ 
 
   return (
     <div>
