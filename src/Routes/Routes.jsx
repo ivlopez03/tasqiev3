@@ -11,13 +11,18 @@ const MyideasPage = lazy(() => import("../pages/MyideasPage/MyideasPage"));
 const WorkspacePage = lazy(
   () => import("../pages/WorkspacePage/WorkspacePage"),
 );
-const WorkspacesPage = lazy(
-  () => import("../pages/WorkspacesPage/WorkspacesPage"),
-);
+
 const CalendarPage = lazy(() => import("../pages/CalendarPage/CalendarPage"));
+const KanbanPage = lazy(
+  () => import("../pages/WorkspacePage/KanbanPage/KanbanPage"),
+);
+const NotesPage = lazy(
+  () => import("../pages/WorkspacePage/NotesPage/NotesPage"),
+);
 
 import AuthLayout from "../components/AuthLayout";
 import UnauthLayout from "../components/UnauthLayout";
+
 
 const routes = [
   {
@@ -26,8 +31,10 @@ const routes = [
     children: [
       { path: "/", element: <HomePage /> },
       { path: "workspace/:workspaceId", element: <WorkspacePage /> },
+      {path: "workspace/:workspaceId/kanban", element: <KanbanPage />},
+      {path: "workspace/:workspaceId/notes", element: <NotesPage />},
       { path: "myideas", element: <MyideasPage /> },
-      { path: "workspaces", element: <WorkspacesPage /> },
+  
       { path: "calendar", element: <CalendarPage /> },
     ],
   },

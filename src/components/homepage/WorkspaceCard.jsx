@@ -8,11 +8,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DeleteWorkspaceModal from "./DeleteWorkspaceModal";
 import { useWorkspaces } from "../../context/workspaceContext/WorkspaceContext";
+import CreateWorkspaceModal from "./createWorkspaceModal";
 
 function WorkspaceCard({ workspace, workspaces }) {
   const { deleteWorkspace } = useWorkspaces();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [workspaceToDelete, setWorkspaceToDelete] = useState(workspace);
 
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
@@ -20,6 +22,8 @@ function WorkspaceCard({ workspace, workspaces }) {
   const buttonRef = useRef(null);
 
   const [cardVisibility, setCardVisibility] = useState(false);
+
+  const { updateWorkspace  } = useWorkspaces();
 
   const handleClickOutside = (event) => {
     if (
@@ -105,7 +109,7 @@ function WorkspaceCard({ workspace, workspaces }) {
               className="absolute top-3 right-0 bg-base-100 border  rounded-md shadow-md z-20 "
             >
               <ul className="text-sm">
-                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-base-200">
+                <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-base-200" onClick={()=>setIsEditMode(true) } >
                   Edit
                 </li>
                 <li className="py-1 px-3 cursor-pointer hover:bg-base-200">
@@ -122,11 +126,22 @@ function WorkspaceCard({ workspace, workspaces }) {
           )}
         </div>
       </div>
+      <CreateWorkspaceModal
+        isOpen={isEditMode}
+        onRequestClose={() => setIsEditMode(false)}
+        workspace={workspace}
+        isEditMode={isEditMode}
+        onWorkspaceUpdated={(workspace) => {
+          updateWorkspace(workspace);
+          setIsEditMode(false);
+        }}
+      />
       <DeleteWorkspaceModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         workspace={workspaceToDelete}
         onWorkspaceDeleted={handleWorkspaceDeleted}
+        
       />
     </div>
   );

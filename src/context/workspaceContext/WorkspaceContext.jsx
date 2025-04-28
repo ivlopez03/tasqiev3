@@ -51,6 +51,24 @@ export const WorkspaceProvider = ({children}) => {
 
       };
 
+    const updateWorkspace = (updatedWorkspace) => {
+        const updatedWorkspaces = workspaces.map(workspace => {
+            if (workspace.id === updatedWorkspace.id) {
+                return { ...workspace, ...updatedWorkspace };
+            }
+            return workspace;
+        });
+        setWorkspaces(updatedWorkspaces);
+
+        // Update cache
+        localStorage.setItem(
+          'workspaces',
+          JSON.stringify({ data: updatedWorkspaces, timestamp: Date.now() })
+        );
+
+        console.log(`Workspace ${updatedWorkspace.workspace_title} updated`);
+    }
+
     const deleteWorkspace = (workspaceToDelete) => {
         const updatedWorkspaces = workspaces.filter(workspace => workspace.id !== workspaceToDelete.id);
         setWorkspaces(updatedWorkspaces);
@@ -68,7 +86,7 @@ export const WorkspaceProvider = ({children}) => {
     };
 
     return(
-        <WorkspaceContext.Provider value={{workspaces,createWorkspace,deleteWorkspace,loading,workspaceDeleted}}>
+        <WorkspaceContext.Provider value={{workspaces,createWorkspace,deleteWorkspace,updateWorkspace,loading,workspaceDeleted}}>
             {children}
         </WorkspaceContext.Provider>
     );

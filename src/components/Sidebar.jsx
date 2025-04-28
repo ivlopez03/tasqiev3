@@ -1,6 +1,4 @@
 import MenuIcon from "../assets/SidebarIcons/MenuIcon";
-import ProductivityIcon from "../assets/SidebarIcons/ProductivityIcon";
-import CalendarIcon from "../assets/SidebarIcons/CalendarIcon";
 import DefaultUserIcon from "../assets/SidebarIcons/DefaultUserIcon";
 import LogoutIcon from "../assets/LogoutIcon";
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -19,6 +17,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useWorkspaces } from "../context/workspaceContext/WorkspaceContext";
 
 import CreateWorkspaceModal from "./homepage/createWorkspaceModal";
+import QuickTaskModal from "./QuickTaskModal";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -30,6 +29,7 @@ function Sidebar() {
   const [isActive, setIsActive] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isQuickTaskModalOpen, setIsQuickTaskModalOpen] = useState(false);
 
   const handleWorkspaceCreated = (newWorkspace) => {
     createWorkspace(newWorkspace);
@@ -179,9 +179,11 @@ function Sidebar() {
             
           </div>
           <div className="mt-4   rounded-xl  ">
-            <button className="flex items-center gap-2 w-full  bg-blue-500 text-white text-sm  rounded-md p-2">
+            <button 
+            onClick={() => setIsQuickTaskModalOpen(true)}
+            className="flex items-center gap-2 w-full  bg-blue-500 text-white text-sm  rounded-md p-2">
               <IoAdd />
-              <span>Quick Task</span>
+              <span>Create Task</span>
             </button>
             
               
@@ -214,7 +216,7 @@ function Sidebar() {
                       to={`/workspace/${workspace.id}`}
                       className={({ isActive }) =>
                         isActive
-                          ? "p-2 flex items-center cursor-pointer bg-base-300 rounded-md"
+                          ? "p-2 flex items-center cursor-pointer bg-base-200 rounded-md"
                           : "flex items-center p-2 cursor-pointer"
                       }
                     >
@@ -248,6 +250,11 @@ function Sidebar() {
         </div>
         
       </div>
+      <QuickTaskModal 
+        isOpen={isQuickTaskModalOpen}
+        onRequestClose={() => setIsQuickTaskModalOpen(false)}
+        
+      />
       <CreateWorkspaceModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}

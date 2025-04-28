@@ -1,6 +1,5 @@
 import CreateWorkspaceModal from "../../components/homepage/createWorkspaceModal";
 import WorkspaceCard from "../../components/homepage/WorkspaceCard";
-import PlusIcon from "../../assets/PlusIcon";
 import HelpIcon from "../../assets/HelpIcon";
 import SettingsIcon from "../../assets/SettingsIcon";
 import { FaRegClock } from "react-icons/fa";
@@ -16,7 +15,7 @@ import { useAuth } from "../../context/authContext";
 const HomePage = () => {
   const { user } = useAuth();
 
-  const { workspaces, createWorkspace, loading } = useWorkspaces();
+  const { workspaces, createWorkspace, loading  } = useWorkspaces();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,7 +37,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className="h-screen bg-base-200 ">
+    <div className="h-screen bg-base-200 overflow-y-auto ">
+      
       <div className="relative">
         <div className=" p-5 flex items-center relative justify-between ">
           <div className="text-2xl font-bold  ">
@@ -144,6 +144,8 @@ const HomePage = () => {
                     isOpen={isModalOpen}
                     onRequestClose={() => setIsModalOpen(false)}
                     onWorkspaceCreated={handleWorkspaceCreated}
+                  
+
                   />
                 </div>
               )}
