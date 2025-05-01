@@ -20,6 +20,10 @@ const NotesPage = lazy(
   () => import("../pages/WorkspacePage/NotesPage/NotesPage"),
 );
 
+const BacklogPage = lazy(
+  () => import("../pages/backlog/BacklogPage"),
+);
+
 import AuthLayout from "../components/AuthLayout";
 import UnauthLayout from "../components/UnauthLayout";
 
@@ -31,11 +35,11 @@ const routes = [
     children: [
       { path: "/", element: <HomePage /> },
       { path: "workspace/:workspaceId", element: <WorkspacePage /> },
-      {path: "workspace/:workspaceId/kanban", element: <KanbanPage />},
-      {path: "workspace/:workspaceId/notes", element: <NotesPage />},
+      { path: "workspace/:workspaceId/kanban", element: <KanbanPage />},
+      { path: "workspace/:workspaceId/notes", element: <NotesPage />},
       { path: "myideas", element: <MyideasPage /> },
-  
       { path: "calendar", element: <CalendarPage /> },
+      { path: "backlog", element: <BacklogPage /> },
     ],
   },
   {

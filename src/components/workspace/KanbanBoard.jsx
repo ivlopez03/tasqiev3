@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import supabase from "../../supabase/supabase";
 import { LineWave } from "react-loader-spinner";
 
+
 const KanbanBoard = () => {
   const [tasks, setTasks] = useState([]);
   const { workspaceId } = useParams();
@@ -77,7 +78,7 @@ const KanbanBoard = () => {
   }
 
   return (
-    <div className="px-4 flex gap-4 overflow-x-auto">
+    <div className="h-full px-4 flex gap-4   ">
       {columns.map((column, index) => {
         return (
           <div key={index}>
@@ -89,9 +90,12 @@ const KanbanBoard = () => {
                 </span>
               )}
             </h1>
-            {column.tasks.map((task) => (
-              <TaskCard task={task} key={task.id} updateTask={updateTask} />
-            ))}
+            <div className="h-[85%] overflow-y-auto pb-8 hover:scrollbar- hover:scrollbar-thumb-blue-500 hover:scrollbar-track-gray-200">
+              {column.tasks.map((task) => (
+                <TaskCard task={task} key={task.id} updateTask={updateTask}   />
+              ))}
+            </div>
+            
           </div>
         );
       })}

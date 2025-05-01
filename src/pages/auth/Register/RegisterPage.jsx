@@ -105,7 +105,7 @@ const RegisterPage = () => {
   return (
     <>
       <main>
-        <div className="w-96  p-9 shadow-xl border rounded-xl  relative bg-base-100">
+        <div className="w-96  p-9 shadow-xl border border-gray-300 rounded-xl  relative bg-base-100">
           <div className="flex items-center  place-content-center  pb-5">
             <img src="/tasklight.svg" width={60}></img>
             <span className="text-2xl font-bold">TaskLight</span>
@@ -120,7 +120,7 @@ const RegisterPage = () => {
               <label className="text-sm  flex items-center ">
                 <UsernameIcon />
                 <span className="ml-2">Name</span>
-                <span className="text-red-500 ">*</span>
+                <span className="font-semibold text-gray-600">*</span>
               </label>
               <input
                 type="text"
@@ -129,7 +129,7 @@ const RegisterPage = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-blue-50  mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50  mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
               />
             </div>
 
@@ -137,7 +137,7 @@ const RegisterPage = () => {
               <label className="text-sm  flex items-center ">
                 <MailIcon />
                 <span className="ml-2">Mail</span>
-                <span className="text-red-500">*</span>
+                <span className="font-semibold text-gray-600">*</span>
               </label>
 
               <input
@@ -148,7 +148,7 @@ const RegisterPage = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
               />
             </div>
 
@@ -156,7 +156,7 @@ const RegisterPage = () => {
               <label className="text-sm  flex items-center ">
                 <LockIcon />
                 <span className="ml-2">Password</span>
-                <span className="text-red-500">*</span>
+                <span className="font-semibold text-gray-600">*</span>
               </label>
               <div className="flex items-center relative ">
                 <input
@@ -166,7 +166,7 @@ const RegisterPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                  className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
                 />
                 <button
                   type="button"
@@ -181,29 +181,29 @@ const RegisterPage = () => {
             <div
               className={`overflow-hidden transition-all duration-500  ${showPasswordRequirements ? " opacity-100" : "max-h-0 opacity-0"}`}
             >
-              <ul className="text-[11px] ">
+              <ul className="text-[11px] mb-3 ">
                 <li
                   className={
-                    passwordValidations.length ? "text-[green]" : "text-red-400"
+                    passwordValidations.length ? "text-[green]" : "text-gray-400"
                   }
                 >
-                  At least 8 characters
+                  * At least 8 characters
                 </li>
                 <li
                   className={
                     passwordValidations.uppercase
                       ? "text-[green]"
-                      : "text-red-400"
+                      : "text-gray-400"
                   }
                 >
-                  At least one uppercase letter
+                  * At least one uppercase letter
                 </li>
                 <li
                   className={
-                    passwordValidations.number ? "text-[green]" : "text-red-400"
+                    passwordValidations.number ? "text-[green]" : "text-gray-400"
                   }
                 >
-                  At least one number
+                  * At least one number
                 </li>
               </ul>
             </div>
@@ -212,7 +212,7 @@ const RegisterPage = () => {
               <label className="text-sm flex items-center ">
                 <LockIcon />
                 <span className="ml-2">Confirm Password</span>
-                <span className="text-red-500">*</span>
+                <span className="font-semibold text-gray-600">*</span>
               </label>
               <input
                 type={showPassword ? "text" : "password"}
@@ -221,7 +221,7 @@ const RegisterPage = () => {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+                className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
               />
             </div>
             {errorMessage && (
@@ -230,7 +230,7 @@ const RegisterPage = () => {
 
             <button
               type="submit"
-              className={`w-full px-4 py-2 mb-4   text-white font-medium rounded-lg bg-blue-500  transition duration-300`}
+              className={`btn w-full px-4 py-2 mb-4   text-white font-medium rounded-lg bg-blue-500 `}
             >
               Create account
             </button>

@@ -74,8 +74,8 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="flex flex-col p-8 bg-base-100 border rounded-xl shadow-xl w-[500px] font-light"
-      overlayClassName="fixed inset-0 flex justify-center items-center bg-black bg-opacity-5 z-50"
+      className="flex flex-col p-8 bg-base-100 border border-gray-300 rounded-xl shadow-xl w-[500px] font-light"
+      overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.1)] z-50"
     >
       <div className="w-full mb-6">
         <h2 className="">{isEditMode ? "Edit Workspace" : "Create a Workspace"}</h2>
@@ -106,7 +106,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
               placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full p-2 bg-base-100 border border-gray-400 rounded text-sm outline-none"
+              className="w-full p-2 bg-base-100 border border-gray-300 rounded text-sm outline-none"
             />
           </div>
         </div>
@@ -121,8 +121,8 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
                   onClick={() => setColor(colorOption.bg_color)}
                   style={{ backgroundColor: colorOption.bg_color }}
                   className={`w-4 h-4 rounded-md mr-7 my-1 ${
-                    color === colorOption.bg_color ? "ring-2 ring-offset-2 ring-blue-500" : ""
-                  } border`}
+                    color === colorOption.bg_color ? "ring-1 ring-offset-2 ring-blue-500" : ""
+                  } border border-gray-400`}
                 />
               ))}
             </div>
@@ -137,7 +137,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
             value={description}
             placeholder="Description"
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 bg-base-200 border border-gray-400 rounded text-sm outline-none"
+            className="w-full p-2 bg-base-200 border border-gray-300 rounded text-sm outline-none"
           />
         </div>
         <div className="flex gap-4 my-2 justify-end">

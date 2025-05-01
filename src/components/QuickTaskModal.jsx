@@ -33,11 +33,11 @@ const taskPriorities = [
     
 Modal.setAppElement("#root");
 
-function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
+function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtasks }) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("todo");
   const [priority, setPriority] = useState("medium");
-  const [deadline, setDeadline] = useState("");
+  const [deadline, setDeadline] = useState(null);
   const [type, setType] = useState("task");
   const [description, setDescription] = useState("");
   const [workspaceId, setWorkspaceId] = useState("backlog");
@@ -55,7 +55,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
     setTitle("");
     setStatus("todo");
     setPriority("medium");
-    setDeadline("");
+    setDeadline(null);
     setType("task");
     setTags([]);
     setDescription("");
@@ -131,6 +131,11 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
               } else {
                 console.log("Tags added successfully");
               }
+
+            // Refresh tasks in backlog board
+            if (refreshBacklogtasks) {
+                refreshBacklogtasks();
+            }  
         
             } catch (error) {
                 console.error("Unexpected error:", error);
@@ -183,7 +188,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
   setTitle("");
   setStatus("todo");
   setPriority("medium");
-  setDeadline("");
+  setDeadline(null);
   setType("task");
   setTags([]);
   setDescription("");
@@ -219,8 +224,8 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="flex flex-col  bg-base-100 border rounded-xl shadow-xl w-[550px] font-light"
-      overlayClassName="fixed inset-0 flex justify-center items-center bg-black bg-opacity-5 z-50"
+      className="flex flex-col  bg-base-100 border border-gray-300 rounded-xl shadow-xl w-[550px] font-light"
+      overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.1)] z-50"
     >
       <div className="w-full flex items-center justify-between  px-6 py-3   ">
         <div className="flex items-center gap-2">
@@ -240,7 +245,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
         </div>
         </div>
       <div>
-        <hr />
+        <hr className="text-gray-300" />
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-8 ">
 
@@ -252,12 +257,12 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                 <label htmlFor="type" className="text-sm font-medium text-gray-700 mb-1">
                 Type
                 </label>
-                <div className="relative">
+                <div className="relative text-sm">
                 <select
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
-                    className="w-full px-3 py-2 border  rounded-md focus:outline-none  appearance-none"
+                    className="w-full px-3 py-2 border border-gray-300  rounded-md focus:outline-none  appearance-none"
                 >
                     {taskTypes.map((taskType) => (
                     <option key={taskType.value} value={taskType.value}>
@@ -265,7 +270,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                     </option>
                     ))}
                 </select>
-                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                <div className="absolute text-lg inset-y-0 right-3 flex items-center pointer-events-none">
                     {taskTypes.find((taskType) => taskType.value === type)?.icon}
                 </div>
                 </div>
@@ -278,12 +283,12 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                     <LuFolderKanban size={14} className="mr-1" />
                 Workspace
                 </label>
-                <div className="relative">
+                <div className="relative text-sm">
                 <select
                     id="workspace"
                     value={workspaceId}
                     onChange={(e) => setWorkspaceId(e.target.value)}
-                    className="w-full px-3 py-2 border  rounded-md focus:outline-none  appearance-none"
+                    className="w-full px-3 py-2 border border-gray-300   rounded-md focus:outline-none  appearance-none"
                 >
 
                     <option  
@@ -334,7 +339,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full font-medium px-3 py-2 border rounded-md focus:outline-none bg-base-200 "
+                className="w-full font-medium px-3 py-2 border border-gray-300  rounded-md focus:outline-none bg-base-200 "
                 placeholder=""
                 required
               />
@@ -349,13 +354,15 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full resize-none text-sm px-3 py-2 border  rounded-md focus:outline-none bg-base-200 "
+                className="w-full resize-none text-sm px-3 py-2 border border-gray-300   rounded-md focus:outline-none bg-base-200 "
                 placeholder="Add a description..."
                
               />
         </div>
             
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            {/* Calendar input */}
               <div>
                 <label htmlFor="dueDate" className="flex items-center text-sm font-medium text-gray-700 mb-1">
                   <CiCalendar size={14} className="mr-1" />
@@ -366,33 +373,34 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                   id="dueDate"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none "
+                  className="w-full text-sm px-3 py-2 border border-gray-300  rounded-md focus:outline-none "
 
                 />
               </div>
               
+            {/* Priority Dropdown */} 
               <div>
-            <label htmlFor="type" className="flex items-center text-sm font-medium text-gray-700 mb-1">
-              <CiFlag1 size={14} className="mr-1" />
-              Priority
-            </label>
-            <div className="relative">
-              <select
-                id="priority"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  appearance-none"
-              >
-                {taskPriorities.map((taskPriority) => (
-                  <option key={taskPriority.value} value={taskPriority.value}>
-                    {taskPriority.label}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                {taskPriorities.find((taskPriority) => taskPriority.value === priority)?.icon}
-              </div>
-            </div>
+                <label htmlFor="type" className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <CiFlag1 size={14} className="mr-1" />
+                Priority
+                </label>
+                <div className="relative text-sm">
+                <select
+                    id="priority"
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300  rounded-md focus:outline-none  appearance-none"
+                >
+                    {taskPriorities.map((taskPriority) => (
+                    <option key={taskPriority.value} value={taskPriority.value}>
+                        {taskPriority.label}
+                    </option>
+                    ))}
+                </select>
+                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    {taskPriorities.find((taskPriority) => taskPriority.value === priority)?.icon}
+                </div>
+                </div>
             </div>
         </div>
             
@@ -425,7 +433,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 px-3 py-2 border text-sm rounded-l-md focus:outline-none "
+                  className="flex-1 px-3 py-2 border border-gray-300  text-sm rounded-l-md focus:outline-none "
                   placeholder="Add a tag..."
                 />
                 <button
@@ -462,14 +470,14 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks }) {
         isOpen={isCancelModalOpen}
         onRequestClose={closeCancelModal}
         style={customStyles}
-        className="flex flex-col  bg-base-100 border rounded-xl shadow-xl w-[400px] font-light"
-        overlayClassName="fixed top-1 inset-0 flex justify-center items-center bg-black bg-opacity-5 z-50"
+        className="flex flex-col  bg-base-100 border border-gray-300 rounded-xl  shadow-xl w-[400px] font-light"
+        overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.2)]  z-50"
       >
         <div className="w-full px-8 py-3  ">
           <h2 className="text-lg font-semibold">Discard new task creation?</h2>
           <p className="text-sm">You will loose all the information entered for this task.</p>
         </div>
-        <div className="flex gap-4 p-4 my-2 justify-end">
+        <div className="flex gap-4 p-4 rounded-b-md justify-end bg-gray-100">
           <button
             type="button"
             className="px-4 py-1 bg-red-500 text-white rounded text-sm"

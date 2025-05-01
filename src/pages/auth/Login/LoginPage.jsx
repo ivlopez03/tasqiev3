@@ -45,7 +45,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div className="w-96 space-y-2  p-9 shadow-xl border rounded-xl relative bg-base-100">
+      <div className="w-96 space-y-2  p-9 shadow-xl border border-gray-300 rounded-xl relative bg-base-100">
         <div className="flex items-center  place-content-center  pb-5">
           <img src="/tasklight.svg" width={60} ></img>
           <span className="text-2xl font-bold">TaskLight</span>
@@ -53,7 +53,7 @@ const LoginPage = () => {
         <div className="">
           <button
             onClick={signInGoogle}
-            className="flex items-center gap-16  w-full relative mb-4  bg-gray-200 p-2 rounded-md   "
+            className="flex items-center gap-16  w-full relative mb-4  bg-gray-200 p-2 rounded-md cursor-pointer  "
           >
             <div className="">
               <GoogleIcon />
@@ -62,9 +62,9 @@ const LoginPage = () => {
           </button>
         </div>
         <div className="flex flex-row text-center w-full  py-3">
-          <div className="border-b-2 mb-2.5 mr-2 w-full"></div>
+          <div className="border-b border-gray-300 mb-2.5 mr-2 w-full"></div>
           <div className="text-sm font-bold w-fit">or</div>
-          <div className="border-b-2 mb-2.5 ml-2 w-full"></div>
+          <div className="border-b border-gray-300  mb-2.5 ml-2 w-full"></div>
         </div>
         <form onSubmit={onSubmit} className=" inline-block w-full ">
           {errorMessage && (
@@ -85,7 +85,7 @@ const LoginPage = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="email@example.com"
-            className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+            className="w-full bg-blue-50  mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
           />
 
           <label className="text-sm  flex items-center mt-2 ">
@@ -99,11 +99,11 @@ const LoginPage = () => {
             required
             value={formData.password}
             onChange={handleChange}
-            className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border shadow-sm rounded-md transition duration-300"
+            className="w-full bg-blue-50 mt-2 px-3 py-2 outline-none border border-gray-200 shadow-sm rounded-md transition duration-300"
           />
 
           <div className="flex place-content-center mt-4">
-            <button type="submit" className="bg-blue-500 p-2 rounded-md text-base-100 w-full">
+            <button type="submit" className="btn bg-blue-500 p-2 rounded-md text-base-100 w-full cursor-pointer">
               Sign-in with Email
             </button>
           </div>

@@ -6,6 +6,7 @@ import React, { Suspense, useState } from "react";
 import { SessionProvider } from "./context/authContext";
 import { useRoutes } from "react-router-dom";
 import { WorkspaceProvider } from "./context/workspaceContext/WorkspaceContext";
+import { BacklogProvider } from "./context/backlogContext/BacklogContext";
 import routes from "./Routes/Routes";
 
 function App() {
@@ -16,7 +17,9 @@ function App() {
     <div>
       <SessionProvider>
         <WorkspaceProvider>
-          <Suspense fallback={<div>Loading...</div>}>{routing}</Suspense>
+          <BacklogProvider>
+            <Suspense fallback={<div>Loading...</div>}>{routing}</Suspense>
+          </BacklogProvider>
         </WorkspaceProvider>
       </SessionProvider>
     </div>

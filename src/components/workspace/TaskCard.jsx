@@ -41,7 +41,7 @@ const TaskCard = ({ task, updateTask }) => {
       draggable="true"
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      className={`p-4 m-3  w-[350px] min-w-[350px] h-fit border shadow-sm  bg-base-100  rounded-md relative  ${
+      className={`p-4 m-3  w-[350px] min-w-[350px] h-fit border border-gray-200 shadow-sm bg-white  rounded-md relative  ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
     >
@@ -65,19 +65,16 @@ const TaskCard = ({ task, updateTask }) => {
 
 
       <div
-        className={` relative mb-6 max-w-[270px] overflow-hidden mt-1 line-clamp-3 leading-4  ${isEditingTitle === true ? "h-fit" : ""}`}
+        className={` relative  w-full overflow-hidden mt-1 line-clamp-3 leading-4 `}
       >
-        <div className="text-md font-normal cursor-default ">
-          {isEditingTitle ? (
-            <textarea
-              autoFocus
-              className="w-full h-[90px] bg-base-100 resize-none outline-none"
-              onBlur={() => setIsEditingTitle(false)}
-              value={task.title}
-              onChange={(e) => updateTask({ ...task, text: e.target.value })}
-            />
-          ) : (
-            <div onClick={() => setIsEditingTitle(true)}> {task.title} </div>
+        <div className="text-md font-normal cursor-default w-full">
+          {task.title}
+        </div>
+        <div>
+          {task.description && (
+            <p className="text-xs font-light text-gray-600 mt-1 line-clamp-2">
+              {task.description}
+            </p>
           )}
         </div>
       </div>
@@ -86,13 +83,13 @@ const TaskCard = ({ task, updateTask }) => {
         {task.tags.slice(0, 2).map((tag) => (
           <span
             key={tag}
-            className="text-xs text-nowrap text-blue-700 bg-blue-50 rounded-full px-2 py-0.5"
+            className="text-xs text-nowrap text-blue-700 bg-blue-50 rounded-full px-2 py-0.5 mt-4"
           >
             {tag}
           </span>
         ))}
         {task.tags.length > 2 && (
-          <div className="text-xs bg-blue-50 text-blue-700 rounded-full p-0.5 px-1.5">
+          <div className="text-xs bg-blue-50 text-blue-700 rounded-full p-0.5 px-1.5 mt-4">
             {task.tags.length - 2 > 9 ? `9+` : `+${task.tags.length - 2}`}
           </div>
         )} 

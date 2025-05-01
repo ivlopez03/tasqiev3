@@ -25,7 +25,7 @@ const KanbanPage = () => {
     }
 
   return (
-    <div className="p-4  md:w-[60%] lg:w-[90%] ">
+    <div className="p-4  md:w-[60%] lg:w-[90%] h-screen ">
         <div className="flex items-center gap-4 overflow-hidden">
          <Link 
             to={`/workspace/${workspace.id}`}
@@ -45,13 +45,13 @@ const KanbanPage = () => {
                 <span className="text-sm font-semibold ">Add New Task</span>
                </button>
             </div>
-            <div className="py-6"> 
+            <div className="w-full h-screen py-6"> 
                 <KanbanBoard/>
             </div>
 
 
         </div>
-      
+    
     </div>
   );
 }
