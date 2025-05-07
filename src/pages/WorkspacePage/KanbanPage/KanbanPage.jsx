@@ -1,4 +1,5 @@
 import { IoIosArrowBack,IoIosAdd } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import { useWorkspaces } from "../../../context/workspaceContext/WorkspaceContext";
 import  KanbanBoard  from "../../../components/workspace/KanbanBoard";
@@ -13,10 +14,10 @@ const KanbanPage = () => {
     const workspace = workspaces.find((workspace) => workspace.id === workspaceId);
     if (!workspace) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gray-50">
+            <div className="flex items-center justify-center h-screen bg-base-200">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-800 mb-4">Workspace Not Found</h1>
-                    <p className="text-gray-600 mb-6">
+                    <h1 className="text-2xl font-bold mb-4">Workspace Not Found</h1>
+                    <p className="text-neutral-600 mb-6">
                         The workspace you are looking for does not exist or has been removed.
                     </p>
                 </div>
@@ -25,27 +26,40 @@ const KanbanPage = () => {
     }
 
   return (
-    <div className="p-4  md:w-[60%] lg:w-[90%] h-screen ">
-        <div className="flex items-center gap-4 overflow-hidden">
-         <Link 
-            to={`/workspace/${workspace.id}`}
-         className="btn btn-ghost btn-sm rounded-btn">
-             <IoIosArrowBack />
-         </Link>
-         <div>
-            <span className="text-xs text-gray-600"  >{workspace.workspace_title} </span>
-             <h1 className="text-xl font-semibold ">Kanban Board</h1>   
-         </div>
-        </div>
-
-        <div>
-            <div className="p-4" >
-               <button className="flex items-center gap-2 mt-4 bg-blue-500 text-white text-sm rounded-md px-4 py-2">
-                <IoIosAdd  />
-                <span className="text-sm font-semibold ">Add New Task</span>
+    <div className="px-4 pt-4  h-screen w-full overflow-y-hidden  bg-base-200 ">
+        <div className="flex items-center justify-between  ">
+            <div className="flex items-center gap-4  ">
+                <Link 
+                    to={`/workspace/${workspace.id}`}
+                    className="btn btn-ghost btn-sm rounded-btn">
+                    <IoIosArrowBack />
+                </Link>
+                <div>
+                    <span className="text-xs text-neutral-500"  >{workspace.workspace_title} </span>
+                    <h1 className="text-xl font-semibold ">Kanban Board</h1>   
+                </div>
+            </div>
+            <div>
+                <button className="btn flex items-center gap-2 mt-4 bg-primary text-primary-content text-sm rounded-md px-4 py-2">
+                    <IoIosAdd  className="text-xl" />
+                    <span className="text-sm font-semibold ">Add New Task</span>
                </button>
             </div>
-            <div className="w-full h-screen py-6"> 
+        </div>
+
+        <div className="flex items-baseline-last  gap-2 px-4 py-2 text-sm mt-4" >
+            <div className="flex items-center gap-2 border border-neutral-300 rounded-md p-2 w-fit bg-base-200  ">
+                <div>
+                    <CiSearch className="text-neutral-500" />
+                </div>
+                <div className=" ">
+                    <input type="search" className="outline-none " placeholder="Search" />
+                </div>
+            </div>
+        </div>
+
+        <div className="h-[97%] w-full overflow-y-auto pb-16 ">
+            <div className="w-full h-full py-6 overflow-x-auto overflow-y-auto"> 
                 <KanbanBoard/>
             </div>
 

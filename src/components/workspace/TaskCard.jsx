@@ -13,7 +13,7 @@ import { TiFlowChildren } from "react-icons/ti";
 
 import { useState } from "react";
 
-export const statuses = ["todo", "in-progress", "done"];
+export const statuses = ["todo","blocked", "in-progress", "done"];
 export const priorities = ["low", "medium", "high"];
 
 // Add this utility function at the top or in a separate utility file
@@ -24,26 +24,26 @@ const formatDueDate = (dueDate) => {
   return date.toLocaleDateString("en-US", options);
 };
 
-const TaskCard = ({ task, updateTask }) => {
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+const formatID = (id) => {
+  const idString = id.toString();
+  // Return the first 3 digits of the ID
+  const idDigits = idString.slice(0, 3).toUpperCase();
+  return `WT-${idDigits}`;
+};
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
 
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
+
+const TaskCard = ({ task }) => {
+  
 
   return (
     <div
       draggable="true"
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      className={`p-4 m-3  w-[350px] min-w-[350px] h-fit border border-gray-200 shadow-sm bg-white  rounded-md relative  ${
-        isDragging ? "cursor-grabbing" : "cursor-grab"
-      }`}
+      onDragStart={(e) => {
+        e.dataTransfer.setData("id",task.id);
+      }}
+     
+      className={`p-4 w-72 h-fit border border-base-300 shadow-xs bg-base-200  rounded-md relative cursor-grab`}
     >
       <div className="flex justify-between relative mb-4 ">
         
@@ -56,7 +56,8 @@ const TaskCard = ({ task, updateTask }) => {
             <CiCalendar />{formatDueDate(task.due_at)}
           </span>
         </div>
-        <div className="text-sm flex">
+        <div className="text-sm flex items-center gap-2">
+          <div className="text-xs text-neutral-500 font-light">{formatID(task.id)}</div>
           {task.Priority === "high" && <BsChevronDoubleUp fill="tomato" />}
           {task.Priority === "medium" && <FaEquals fill="#F3D200" />}
           {task.Priority === "low" && <BsChevronDoubleDown fill="blue" />}
@@ -65,14 +66,14 @@ const TaskCard = ({ task, updateTask }) => {
 
 
       <div
-        className={` relative  w-full overflow-hidden mt-1 line-clamp-3 leading-4 `}
+        className={` relative  w-full overflow-hidden mt-1 line-clamp-3 leading-4 pb-0.5 `}
       >
-        <div className="text-md font-normal cursor-default w-full">
+        <div className="text-sm font-normal cursor-default w-full">
           {task.title}
         </div>
         <div>
           {task.description && (
-            <p className="text-xs font-light text-gray-600 mt-1 line-clamp-2">
+            <p className="text-xs font-light text-neutral-500 mt-1 line-clamp-2">
               {task.description}
             </p>
           )}
@@ -83,13 +84,13 @@ const TaskCard = ({ task, updateTask }) => {
         {task.tags.slice(0, 2).map((tag) => (
           <span
             key={tag}
-            className="text-xs text-nowrap text-blue-700 bg-blue-50 rounded-full px-2 py-0.5 mt-4"
+            className="text-xs text-nowrap bg-primary text-primary-content rounded-full px-2 py-0.5 mt-4"
           >
             {tag}
           </span>
         ))}
         {task.tags.length > 2 && (
-          <div className="text-xs bg-blue-50 text-blue-700 rounded-full p-0.5 px-1.5 mt-4">
+          <div className="text-xs bg-primary text-primary-content rounded-full p-0.5 px-1.5 mt-4">
             {task.tags.length - 2 > 9 ? `9+` : `+${task.tags.length - 2}`}
           </div>
         )} 

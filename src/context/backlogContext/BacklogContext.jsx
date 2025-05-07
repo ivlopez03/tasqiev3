@@ -1,96 +1,95 @@
-
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, use } from "react";
 import supabase from "../../supabase/supabase";
 import { useAuth } from "../authContext";
 
 const BacklogContext = createContext();
 
 export const BacklogProvider = ({ children }) => {
-  const { userId } = useAuth();
+  const { session } = useAuth();
   const [backlogTasks, setBacklogTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [backlogDeleted, setBacklogDeleted] = useState([]);
-    const [userLoading, setUserLoading] = useState(true);
-  const [localUserId, setLocalUserId] = useState(null); // local storage fallback for userId
+  const [hasFetched, setHasFetched] = useState(false);
+ 
+  // Local storage fallback for userId
 
-  const getBacklogTasks = async () => {
+  // Function to fetch backlog tasks and their related tags
+  const getBacklogTasksWithTags = async (userId) => {
     try {
-        const { data, error } = await supabase
-            .from("backlog")
-            .select("*")
-            .eq("user", userId)
-        if (error) {
-            console.error("Error fetching tasks:", error.message);
-            return [];
-        }
-        return data;
-        
-    } catch (error) {
-        console.error("Unexpected error:", error);
+      // Fetch backlog tasks
+      const { data: tasks, error: tasksError } = await supabase
+        .from("backlog")
+        .select("*")
+        .eq("user", userId);
+
+      if (tasksError) {
+        console.error("Error fetching tasks:", tasksError.message);
         return [];
+      }
+
+      // Fetch tags related to the backlog tasks
+      const taskIds = tasks.map((task) => task.id); // Extract task IDs
+      const { data: tags, error: tagsError } = await supabase
+        .from("tags")
+        .select("*")
+        .in("backlog_task_id", taskIds); // Fetch tags for the task IDs
+
+      if (tagsError) {
+        console.error("Error fetching tags:", tagsError.message);
+        return tasks; // Return tasks without tags if there's an error
+      }
+
+      // Combine tasks with their related tags
+      const tasksWithTags = tasks.map((task) => ({
+        ...task,
+        tags: tags.filter((tag) => tag.backlog_task_id === task.id), // Attach tags to the corresponding task
+      }));
+
+      return tasksWithTags;
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      return [];
     }
   };
 
   const refreshBacklogTasks = async () => {
-    try {
-        setLoading(true); // Show loading state
-        const user = userId || localUserId; // Use userId or fallback to local storage
-        if (!user) {
-          console.warn("User ID is not available. Skipping task fetch.");
-          return;
-        }
-        const tasks = await getBacklogTasks(user);
-        setBacklogTasks(tasks);
-        localStorage.setItem("backlogTasks", JSON.stringify(tasks)); // Store tasks in local storage
-      } catch (err) {
-        console.error("Unexpected error:", err);
-      } finally {
-        setLoading(false); // Hide loading state
-      }
-  };
+    if (session && session.user) {
+      const userId = session.user.id; // Get the user ID from the session
+      setLoading(true);
+      // Fetch backlog tasks with tags for the logged-in user
+      const tasks = await getBacklogTasksWithTags(userId);
+      setBacklogTasks(tasks)
+      setLoading(false);
 
-    // Watch for changes in userId and update local storage
-  useEffect(() => {
-    if (userId) {
-      setLocalUserId(userId); // Update local state
-      localStorage.setItem("userId", userId); // Store userId in local storage
-      setUserLoading(false); // Hide loading state
-      console.log("User ID set in local storage:");
-    } else {
-      const storedUserId = localStorage.getItem("userId");
-      if (storedUserId) {
-        console.log("Using stored user ID");
-        setLocalUserId(storedUserId); // Use stored userId as fallback
-        setUserLoading(false); // Hide loading state
-      }
     }
-  }, [userId]);
+  }
 
-  // Fetch backlog tasks when userId or localUserId changes
+  
+
+  
+
+ 
   useEffect(() => {
-    const storedBacklogTasks = localStorage.getItem("backlogTasks");
-    if (storedBacklogTasks) {
-        setBacklogTasks(JSON.parse(storedBacklogTasks));
-        setLoading(false);
-        }   else if (!userLoading && (userId || localUserId)) {
-        refreshBacklogTasks();
+    if (session && session.user && !hasFetched) {
+      refreshBacklogTasks();
+      setHasFetched(true);
     }
-  }, [userId, localUserId, userLoading]);
-
+  }
+  , [session, hasFetched]);
+  
 
   return (
     <BacklogContext.Provider
       value={{
         backlogTasks,
         loading,
+        getBacklogTasksWithTags,
         refreshBacklogTasks,
-        backlogDeleted,
       }}
     >
       {children}
     </BacklogContext.Provider>
   );
-
-  };
+};
 
 export const useBacklog = () => useContext(BacklogContext);

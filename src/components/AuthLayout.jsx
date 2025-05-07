@@ -6,9 +6,9 @@ import Sidebar from "../components/Sidebar";
 
 const AuthLayout = () => {
   return (
-    <div className="w-full flex overflow-hidden">
+    <div className="w-full h-screen flex overflow-hidden">
       <Sidebar />
-      <div className="w-full ">
+      <div className="w-full overflow-x-auto ">
         <Outlet />
       </div>
     </div>

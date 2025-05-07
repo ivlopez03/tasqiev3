@@ -76,32 +76,27 @@ const formatDueDate = (dueDate) => {
 
   return (
     <div
-      className={`group relative  p-3 min-w-[350px] max-w-[350px] shadow-sm bg-base-100  border border-gray-200  rounded-md  transition duration-300 `}
+      className={`group relative  p-3 min-w-[350px] max-w-[350px]  bg-base-200  rounded-md  transition duration-300 `}
     >
-      <div className="flex items-center ">
+      <div className="flex  justify-baseline ">
       <div
-        className="flex items-center justify-center w-10 min-w-10 h-10 rounded mr-4"
-        style={{ backgroundColor: workspace.background_color }}
+        className={`flex items-center justify-center w-10 min-w-10 h-10 rounded mr-4 bg-${workspace.background_color} `}
       >
         <span
-          className={`font-bold`}
-          style={{
-            color: colors_array.find(
-              (c) => c.bg_color === workspace.background_color
-            ).text_color,
-          }}
+          className={`font-bold text-${workspace.background_color}-content `}
+          
         >
           {workspace.workspace_title[0] &&
             workspace.workspace_title[0].toUpperCase()}
         </span>
       </div>
-      <div>
+      <div className="">
         <Link to={`/workspace/${workspace.id}`}>
           <div className="text-md font-semibold">{workspace.workspace_title}</div>
         </Link>
         <div>
           <span className="text-xs line-clamp-3 ">
-            {workspace.description ? workspace.description : <span className="text-gray-500 ">No description</span>}
+            {workspace.description ? workspace.description : <span className=" ">No description</span>}
           </span>
         </div>
         
@@ -110,9 +105,7 @@ const formatDueDate = (dueDate) => {
 
       </div>
 
-      <div className="text-[11px] text-gray-400 pt-4 ">
-          Created At: {formatDueDate(workspace.created_at)}
-        </div>
+      
       <div
         className={`absolute right-2 top-2 `}
       >
@@ -123,7 +116,7 @@ const formatDueDate = (dueDate) => {
           {isSubmenuOpen && (
             <div
               ref={submenuRef}
-              className="absolute top-3 right-0 bg-base-100 border border-gray-300  rounded-md shadow-md z-20 "
+              className="absolute top-3 right-0 bg-base-300 border border-base-200 rounded-md shadow-md z-20 "
             >
               <ul className="text-sm">
                 <li className="py-1 px-3 rounded-t-md cursor-pointer hover:bg-base-200" onClick={()=>setIsEditMode(true) } >
@@ -134,7 +127,7 @@ const formatDueDate = (dueDate) => {
                 </li>
                 <li
                   onClick={toggleDeleteModal}
-                  className="py-1 px-3 rounded-b-md cursor-pointer hover:bg-secondary  text-red-500"
+                  className="py-1 px-3 rounded-b-md cursor-pointer  hover:bg-base-200  text-red-500"
                 >
                   Delete
                 </li>

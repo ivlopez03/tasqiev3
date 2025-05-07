@@ -1,27 +1,28 @@
 export const colors_array = [
     {
-      name: "blue",
-      bg_color: "#eff6ff",
-      text_color:"#1d4ed8"
+      name: "primary",
+      bg_color: "primary",
+      text_color:"primary-content"
     },
     {
-      name: "green",
-      bg_color: "#f0fdf4",
-      text_color:"#15803d"
+      name: "secondary",
+      bg_color: "secondary",
+      text_color:"secondary-content"
     },
     {
-      name: "yellow",
-      bg_color: "#fefce8",
-      text_color:"#a16207"
+      name: "accent",
+      bg_color: "accent",
+      text_color:"accent-content"
     },
     {
-      name: "purple",
-      bg_color: "#faf5ff",
-      text_color:"#7e22ce"
+      name: "neutral",
+      bg_color: "neutral",
+      text_color:"neutral-content"
     },
     {
-      name: "gray",
-      bg_color: "#f9fafb",
-      text_color:"#374151"
-    }
+      name: "info",
+      bg_color: "info",
+      text_color:"info-content"
+    },
+    
   ]

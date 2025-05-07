@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: light --default, dark --prefersdark, pastel;
+    themes: light --default , dark -prefersdark ,lofi,pastel,corporate,winter,cmyk,emerald,retro,valentine,dim,night,acid,cupcake,autumn,synthwave  ;
   }
 
 @layer base {
@@ -10,5 +10,56 @@
             background-color 0.3s,
             color 0.3s;
 
+
     }
 }
+
+
+@plugin "daisyui/theme" {
+    name: "dracula";
+    default: true;
+    --color-accent: #feffb6;
+    --color-info: #d0e79e;
+    --color-primary: #8be9fd ; 
+  }
+
+
+  @plugin "daisyui/theme" {
+    name: "synthwave";
+    default: true;
+    --color-base-100: #5423e7;
+    --color-base-200: #5e2afc;
+    --color-base-300: #7041ff;
+    --color-primary: #ffe666;
+    --color-info: #00d688;
+    --color-accent: #00d3bb;
+    --color-accent-content: #fff;
+    --color-neutral-500:'#a1b1ff';
+    --color-neutral-600:'#a1b1ff';
+    --color-base-content: #fff;
+  }
+
+
+
+  @plugin "daisyui/theme" {
+    name: "lemonade";
+    default: true;
+    --color-secondary: #ec43b3;
+    --color-primary-content:#f4eeff;
+    --color-info:#00d688;
+    --color-info-content: ;
+    --color-primary: #7a2eff ;
+    --color-accent-content: ; 
+    --color-accent:#fffc54;
+    --color-secondary-content:#ffffff;
+    --color-neutral: oklch(50% 0.05 240);
+    --color-neutral-content: oklch(98% 0.01 240);
+    --color-base-100: #ffffff;
+    --color-base-200: #f9f8f4;
+    --color-base-300: #efede7 ;
+    --color-base-content: ;
+    --color-error: #ff7c7c;
+     --color-error-content: oklch(98% 0.01 30);
+  }
+
+

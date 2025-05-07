@@ -10,6 +10,7 @@ const KanbanBoard = () => {
   const [tasks, setTasks] = useState([]);
   const { workspaceId } = useParams();
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -51,7 +52,19 @@ const KanbanBoard = () => {
     };
   });
 
-  const updateTask = (task) => {
+  const updateTask = async(task) => {
+    try {
+    const { data, error } = await supabase
+      .from("workspace_tasks")
+      .update({ status: task.status })
+      .eq("id", task.id)
+
+      console.log("Task updated:", data);
+
+    } catch (error) {
+      console.error("Error updating task:", error.message);
+    } 
+    // Update the local state with the new task data
     const updatedTasks = tasks.map((t) => {
       return t.id === task.id ? task : t;
     });
@@ -77,24 +90,37 @@ const KanbanBoard = () => {
     );
   }
 
+  const handleDrop = (e, status) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("id");
+    const task = tasks.find((task) => task.id === id);
+    if (task) {
+      updateTask({ ...task, status: status });
+    };
+  }
+
   return (
-    <div className="h-full px-4 flex gap-4   ">
+    <div className="h-full w-fit px-4 flex gap-4  ">
       {columns.map((column, index) => {
         return (
-          <div key={index}>
-            <h1 className="capitalize font-semibold text-lg">
-              {column.title}{" "}
+          <div onDrop={(e)=> handleDrop(e, column.title)} onDragOver={(e) => e.preventDefault()} key={index} className=" h-full w-full min-w-xs  overflow-y-auto px-1.5 " >
+            <div className="capitalize sticky top-0 z-10 bg-base-200 font-semibold text-lg px-4 py-1.5 flex items-center justify-between border-b border-base-300  ">
+              {column.title}
               {column.tasks.length > 0 && (
-                <span className="bg-blue-50 text-blue-700 text-[10px] rounded-[4px] px-[4px] py-[2px] relative top-[-2px] ml-1">
+                <span className="bg-base-300  text-[0.6rem] rounded-full px-2 py-0.5 ">
                   {column.tasks.length}
                 </span>
               )}
-            </h1>
-            <div className="h-[85%] overflow-y-auto pb-8 hover:scrollbar- hover:scrollbar-thumb-blue-500 hover:scrollbar-track-gray-200">
+            </div>
+            {column.tasks.length > 0 && (
+              <div className="flex flex-col gap-1.5 h-fit w-fit overflow-y-auto rounded-md   p-4 mt-2 bg-base-100 z-0  ">
               {column.tasks.map((task) => (
-                <TaskCard task={task} key={task.id} updateTask={updateTask}   />
+                <TaskCard task={task} key={task.id}   />
               ))}
             </div>
+             
+            )}
+            
             
           </div>
         );

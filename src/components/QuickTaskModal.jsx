@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import supabase from "../supabase/supabase";
 import { useWorkspaces } from "../context/workspaceContext/WorkspaceContext";
-import { colors_array } from "../utils/colorsWorkspace";
 
+import { useBacklog } from "../context/backlogContext/BacklogContext";
+import { useAuth } from "../context/authContext";
 
 import { CiCalendar,CiFlag1 } from "react-icons/ci";
 import { LuTag,LuX } from "react-icons/lu";
@@ -33,16 +34,19 @@ const taskPriorities = [
     
 Modal.setAppElement("#root");
 
-function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtasks }) {
+function QuickTaskModal({ isOpen, onRequestClose}) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("todo");
   const [priority, setPriority] = useState("medium");
-  const [deadline, setDeadline] = useState(null);
+  const [deadline, setDeadline] = useState(new Date().toISOString().split("T")[0]); // Set to current date
   const [type, setType] = useState("task");
   const [description, setDescription] = useState("");
   const [workspaceId, setWorkspaceId] = useState("backlog");
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState('');
+
+  const { refreshBacklogTasks} = useBacklog();
+  const { userId } = useAuth();
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
@@ -55,7 +59,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
     setTitle("");
     setStatus("todo");
     setPriority("medium");
-    setDeadline(null);
+    setDeadline(new Date().toISOString().split("T")[0]); // Set to current date
     setType("task");
     setTags([]);
     setDescription("");
@@ -72,6 +76,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
 
  const { workspaces } = useWorkspaces();
 
+ 
 
 
  const handleAddTag = () => {
@@ -95,6 +100,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
   const handleCreateTask = async (e) => {
     e.preventDefault();
     if (workspaceId === "backlog") {
+        
         try {
             const { data, error } = await supabase
               .from("backlog")
@@ -130,12 +136,17 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                 console.error("Error adding tags:", tagError.message);
               } else {
                 console.log("Tags added successfully");
+                
               }
 
-            // Refresh tasks in backlog board
-            if (refreshBacklogtasks) {
-                refreshBacklogtasks();
-            }  
+
+            // Refresh tasks in Kanban board
+            refreshBacklogTasks();
+              
+
+
+           
+             
         
             } catch (error) {
                 console.error("Unexpected error:", error);
@@ -188,7 +199,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
   setTitle("");
   setStatus("todo");
   setPriority("medium");
-  setDeadline(null);
+  setDeadline(new Date().toISOString().split("T")[0]); // Set to current date
   setType("task");
   setTags([]);
   setDescription("");
@@ -224,28 +235,28 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="flex flex-col  bg-base-100 border border-gray-300 rounded-xl shadow-xl w-[550px] font-light"
+      className="flex flex-col  bg-base-100 border border-base-300 rounded-xl shadow-xl w-[550px] font-light"
       overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.1)] z-50"
     >
       <div className="w-full flex items-center justify-between  px-6 py-3   ">
         <div className="flex items-center gap-2">
             <div>
-                <MdOutlineTask size={24} className="text-blue-500" />
+                <MdOutlineTask size={24} className="text-primary" />
             </div>
             <div>
                 <h2 className="font-semibold">Create New Task</h2>
-                <p className="text-xs text-gray-500">Let's get things moving! Create a new task and add it to your workspace.</p>
+                <p className="text-xs text-neutral-500">Let's get things moving! Create a new task and add it to your workspace.</p>
     
             </div>
         </div>
         <div>
             <button>
-                <LuX size={20} className="text-gray-500 hover:text-gray-700" onClick={onRequestClose} />
+                <LuX size={20} className="" onClick={onRequestClose} />
             </button>
         </div>
         </div>
       <div>
-        <hr className="text-gray-300" />
+        <hr className="text-neutral-300" />
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-8 ">
 
@@ -254,7 +265,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
         <div className="flex items-center gap-4" >
             {/* Type Dropdown */}
             <div className="w-60">
-                <label htmlFor="type" className="text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="type" className="text-sm font-medium mb-1">
                 Type
                 </label>
                 <div className="relative text-sm">
@@ -262,7 +273,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300  rounded-md focus:outline-none  appearance-none"
+                    className="w-full px-3 py-2 bg-base-300 rounded-md focus:outline-none  appearance-none mt-1"
                 >
                     {taskTypes.map((taskType) => (
                     <option key={taskType.value} value={taskType.value}>
@@ -279,7 +290,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
            
             {/* Workspace Dropdown */}
             <div className="w-full">
-                <label htmlFor="workspace" className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="workspace" className="flex items-center text-sm font-medium mb-1">
                     <LuFolderKanban size={14} className="mr-1" />
                 Workspace
                 </label>
@@ -288,7 +299,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                     id="workspace"
                     value={workspaceId}
                     onChange={(e) => setWorkspaceId(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300   rounded-md focus:outline-none  appearance-none"
+                    className="w-full px-3 py-2 bg-base-300  rounded-md focus:outline-none  appearance-none"
                 >
 
                     <option  
@@ -304,34 +315,24 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                     ))}
                 </select>
                 <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                    {workspaceId && (
-                    <div
-                        className="w-6 h-6 rounded-md flex items-center justify-center"
-                        style={{
-                        backgroundColor: workspaces.find((w) => w.id === workspaceId)?.background_color,
-                        }}
-                    >
-                        <span
-                        className="text-xs font-semibold"
-                        style={{
-                            color: colors_array.find(
-                            (c) =>
-                                c.bg_color ===
-                                workspaces.find((w) => w.id === workspaceId)?.background_color
-                            )?.text_color,
-                        }}
-                        >
-                        {workspaces.find((w) => w.id === workspaceId)?.workspace_title[0]}
-                        </span>
-                    </div>
-                    )}
+                  {workspaceId && workspaceId !== "backlog" && (
+                  <div
+                    className={`w-6 h-6 rounded-md flex items-center justify-center bg-${
+                      workspaces.find((w) => w.id === workspaceId)?.background_color 
+                    }`}
+                  >
+                    <span className={`text-xs font-semibold text-${workspaces.find((w) => w.id === workspaceId)?.background_color}-content  ` }>
+                      {workspaces.find((w) => w.id === workspaceId)?.workspace_title[0]}
+                    </span>
+                  </div>
+                )}
                 </div>
                 </div>
             </div>
         </div>
         
         <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="title" className="block text-sm font-medium  mb-1">
                 Title*
               </label>
               <input
@@ -339,14 +340,14 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full font-medium px-3 py-2 border border-gray-300  rounded-md focus:outline-none bg-base-200 "
+                className="w-full font-medium px-3 py-2 bg-base-300  rounded-md focus:outline-none bg-base-200 "
                 placeholder=""
                 required
               />
         </div>
             
         <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="description" className="block text-sm font-medium  mb-1">
                 Description
               </label>
               <textarea
@@ -354,7 +355,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full resize-none text-sm px-3 py-2 border border-gray-300   rounded-md focus:outline-none bg-base-200 "
+                className="w-full resize-none text-sm px-3 py-2    rounded-md focus:outline-none bg-base-300 "
                 placeholder="Add a description..."
                
               />
@@ -364,7 +365,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
 
             {/* Calendar input */}
               <div>
-                <label htmlFor="dueDate" className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dueDate" className="flex items-center text-sm font-medium  mb-1">
                   <CiCalendar size={14} className="mr-1" />
                   Due Date
                 </label>
@@ -373,14 +374,14 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                   id="dueDate"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full text-sm px-3 py-2 border border-gray-300  rounded-md focus:outline-none "
+                  className="w-full text-sm px-3 py-2 bg-base-300 rounded-md focus:outline-none "
 
                 />
               </div>
               
             {/* Priority Dropdown */} 
               <div>
-                <label htmlFor="type" className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="type" className="flex items-center text-sm font-medium mb-1">
                 <CiFlag1 size={14} className="mr-1" />
                 Priority
                 </label>
@@ -389,7 +390,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                     id="priority"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300  rounded-md focus:outline-none  appearance-none"
+                    className="w-full px-3 py-2 bg-base-300  rounded-md focus:outline-none  appearance-none"
                 >
                     {taskPriorities.map((taskPriority) => (
                     <option key={taskPriority.value} value={taskPriority.value}>
@@ -405,7 +406,7 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
         </div>
             
             <div>
-              <label htmlFor="tags" className="flex items-center text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="tags" className="flex items-center text-sm font-medium  mb-1">
                 <LuTag size={14} className="mr-1" />
                 Tags
               </label>
@@ -413,13 +414,13 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                 {tags.map((tag, index) => (
                   <span 
                     key={index} 
-                    className="inline-flex items-center bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
+                    className="inline-flex items-center bg-primary text-primary-content text-xs px-2 py-1 rounded-full"
                   >
                     {tag}
                     <button 
                       type="button" 
                       onClick={() => handleRemoveTag(tag)}
-                      className="ml-1 text-blue-600 hover:text-blue-800"
+                      className="ml-1 text-primary-content hover:text-primary-content"
                     >
                       <LuX size={12} />
                     </button>
@@ -433,13 +434,13 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 px-3 py-2 border border-gray-300  text-sm rounded-l-md focus:outline-none "
+                  className="flex-1 px-3 py-2 bg-base-300  text-sm rounded-l-md focus:outline-none "
                   placeholder="Add a tag..."
                 />
                 <button
                   type="button"
                   onClick={handleAddTag}
-                  className="px-3 py-2 bg-gray-100 text-gray-700 border border-gray-300 border-l-0 rounded-r-md hover:bg-gray-200"
+                  className="px-3 py-2 bg-base-200 text-neutral-600  border-l-0 rounded-r-md "
                 >
                   Add
                 </button>
@@ -451,13 +452,13 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
         <div className="flex gap-4 my-2 justify-end">
           <button
             type="submit"
-            className="px-4 py-1 bg-blue-500 text-white rounded text-sm"
+            className="btn bg-accent text-accent-content "
           >
              Create
           </button>
           <button
             type="button"
-            className="px-4 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm"
+            className="btn "
             onClick={handleCancel}
           >
             Cancel
@@ -470,24 +471,24 @@ function QuickTaskModal({ isOpen, onRequestClose,refreshTasks,refreshBacklogtask
         isOpen={isCancelModalOpen}
         onRequestClose={closeCancelModal}
         style={customStyles}
-        className="flex flex-col  bg-base-100 border border-gray-300 rounded-xl  shadow-xl w-[400px] font-light"
+        className="flex flex-col  bg-base-100 border border-base-300 rounded-xl  shadow-xl w-[400px] font-light"
         overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.2)]  z-50"
       >
         <div className="w-full px-8 py-3  ">
           <h2 className="text-lg font-semibold">Discard new task creation?</h2>
           <p className="text-sm">You will loose all the information entered for this task.</p>
         </div>
-        <div className="flex gap-4 p-4 rounded-b-md justify-end bg-gray-100">
+        <div className="flex gap-4 p-4 rounded-b-md justify-end bg-base-200">
           <button
             type="button"
-            className="px-4 py-1 bg-red-500 text-white rounded text-sm"
+            className="btn btn-error"
             onClick={confirmCancel}
           >
             Discard
           </button>
           <button
             type="button"
-            className="px-4 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm"
+            className="btn btn-neutral"
             onClick={closeCancelModal}
           >
             Cancel

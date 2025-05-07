@@ -11,18 +11,18 @@ Modal.setAppElement("#root");
 
 function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWorkspaceCreated, workspace, isEditMode }) {
   const [title, setTitle] = useState("");
-  const [color, setColor] = useState("#eff6ff");
+  const [color, setColor] = useState("primary");
   const [description, setDescription] = useState("");
 
   // Populate fields when in edit mode
   useEffect(() => {
     if (isEditMode && workspace) {
       setTitle(workspace.workspace_title || "");
-      setColor(workspace.background_color || "#eff6ff");
+      setColor(workspace.background_color || "primary");
       setDescription(workspace.description || "");
     } else {
       setTitle("");
-      setColor("#eff6ff");
+      setColor("primary");
       setDescription("");
     }
   }, [isEditMode, workspace]);
@@ -37,7 +37,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
       console.error("Error creating workspace:", error.message);
     } else {
       setTitle("");
-      setColor("#eff6ff");
+      setColor("primary");
       setDescription("");
       onWorkspaceCreated(data[0]);
       onRequestClose();
@@ -55,7 +55,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
       console.error("Error updating workspace:", error.message);
     } else {
       setTitle("");
-      setColor("#eff6ff");
+      setColor("primary");
       setDescription("");
       onWorkspaceUpdated(data[0]);
       onRequestClose();
@@ -74,12 +74,12 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="flex flex-col p-8 bg-base-100 border border-gray-300 rounded-xl shadow-xl w-[500px] font-light"
+      className="flex flex-col p-8 bg-base-100 border border-base-300 rounded-xl shadow-xl w-[500px] font-light"
       overlayClassName="fixed inset-0 flex justify-center items-center bg-[rgb(0,0,0,0.1)] z-50"
     >
       <div className="w-full mb-6">
         <h2 className="">{isEditMode ? "Edit Workspace" : "Create a Workspace"}</h2>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-neutral-400">
           A Workspace represents a space with its own tasks, workflows, timelines, and settings.
         </p>
       </div>
@@ -88,14 +88,12 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
           <label className="text-sm">Workspace Title</label>
           <div className="flex">
             <div
-              className="flex items-center justify-center w-10 h-10 rounded mr-4"
-              style={{ backgroundColor: color }}
+              className={`flex items-center justify-center w-10 h-10 rounded mr-4 bg-${color} `}
+              
             >
               <span
-                className="font-bold"
-                style={{
-                  color: colors_array.find((c) => c.bg_color === color)?.text_color || "#000",
-                }}
+                className={`font-bold text-${color}-content`}
+                
               >
                 {title[0] && title[0].toUpperCase()}
               </span>
@@ -106,7 +104,7 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
               placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full p-2 bg-base-100 border border-gray-300 rounded text-sm outline-none"
+              className="w-full p-2 bg-base-200 border border-base-300  rounded text-sm outline-none"
             />
           </div>
         </div>
@@ -119,10 +117,9 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
                   key={colorOption.bg_color}
                   type="button"
                   onClick={() => setColor(colorOption.bg_color)}
-                  style={{ backgroundColor: colorOption.bg_color }}
-                  className={`w-4 h-4 rounded-md mr-7 my-1 ${
+                  className={`w-4 h-4 rounded-md mr-7 my-1 bg-${colorOption.bg_color}  ${
                     color === colorOption.bg_color ? "ring-1 ring-offset-2 ring-blue-500" : ""
-                  } border border-gray-400`}
+                  } border border-gray-400 `}
                 />
               ))}
             </div>
@@ -137,19 +134,19 @@ function CreateWorkspaceModal({ isOpen, onRequestClose,onWorkspaceUpdated, onWor
             value={description}
             placeholder="Description"
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 bg-base-200 border border-gray-300 rounded text-sm outline-none"
+            className="w-full p-2 bg-base-200 border border-base-300 rounded text-sm outline-none"
           />
         </div>
         <div className="flex gap-4 my-2 justify-end">
           <button
             type="submit"
-            className="px-4 py-1 bg-blue-500 text-white rounded text-sm"
+            className="btn btn-accent"
           >
             {isEditMode ? "Save Changes" : "Create"}
           </button>
           <button
             type="button"
-            className="px-4 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm"
+            className="btn "
             onClick={onRequestClose}
           >
             Cancel
