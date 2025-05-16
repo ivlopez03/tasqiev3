@@ -12,6 +12,7 @@ import { CiCalendar } from "react-icons/ci";
 import { TiFlowChildren } from "react-icons/ti";
 
 import { useState } from "react";
+import TaskSideView from "./TaskSideView";
 
 export const statuses = ["todo","blocked", "in-progress", "done"];
 export const priorities = ["low", "medium", "high"];
@@ -34,14 +35,26 @@ const formatID = (id) => {
 
 
 const TaskCard = ({ task }) => {
+  const [isOpenTask, setIsOpenTask] = useState(false);
   
+  const handleOpenTask = () => {
+    setIsOpenTask(true);
+  };
+
+  const handleCloseTask = () => {
+    setIsOpenTask(false);
+  };
 
   return (
+    <>
+    <TaskSideView task={task} isOpen={isOpenTask} onClose={handleCloseTask} />
+
     <div
       draggable="true"
       onDragStart={(e) => {
         e.dataTransfer.setData("id",task.id);
       }}
+      onClick={handleOpenTask}
      
       className={`p-4 w-72 h-fit border border-base-300 shadow-xs bg-base-200  rounded-md relative cursor-grab`}
     >
@@ -110,6 +123,7 @@ const TaskCard = ({ task }) => {
         
       </div>
     </div>
+    </>
   );
 };
 

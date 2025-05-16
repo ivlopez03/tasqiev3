@@ -100,7 +100,7 @@ const KanbanBoard = () => {
   }
 
   return (
-    <div className="h-full w-fit px-4 flex gap-4  ">
+    <div className="h-full w-fit px-4 flex gap-4 z-10  ">
       {columns.map((column, index) => {
         return (
           <div onDrop={(e)=> handleDrop(e, column.title)} onDragOver={(e) => e.preventDefault()} key={index} className=" h-full w-full min-w-xs  overflow-y-auto px-1.5 " >

@@ -3,6 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import { useWorkspaces } from "../../../context/workspaceContext/WorkspaceContext";
 import  KanbanBoard  from "../../../components/workspace/KanbanBoard";
+import TaskSideView from "../../../components/workspace/TaskSideView";
 
 const KanbanPage = () => {
 
@@ -26,8 +27,9 @@ const KanbanPage = () => {
     }
 
   return (
-    <div className="px-4 pt-4  h-screen w-full overflow-y-hidden  bg-base-200 ">
-        <div className="flex items-center justify-between  ">
+    <div className="px-4  h-screen w-full overflow-y-hidden  bg-base-200 ">
+        
+        <div className="flex  items-center  justify-between pt-2  ">
             <div className="flex items-center gap-4  ">
                 <Link 
                     to={`/workspace/${workspace.id}`}
@@ -65,8 +67,12 @@ const KanbanPage = () => {
 
 
         </div>
+
+
+        
     
     </div>
+
   );
 }
 export default KanbanPage;
